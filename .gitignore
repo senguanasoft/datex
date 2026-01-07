@@ -98,6 +98,9 @@ temp/
 docs/.vitepress/cache
 docs/.vitepress/dist
 
+# Local development files (not for public repo)
+.local/
+
 # Keep assets folder and images
 !assets/
 !assets/images/
