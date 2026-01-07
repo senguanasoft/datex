@@ -9,10 +9,10 @@ A modern, lightweight, and customizable date range picker for TypeScript/JavaScr
 ## Features
 
 - 📅 **Date Range Selection** - Select start and end dates with intuitive interface
-- � **\*Single Date Mode** - Use as a single date picker
+- 📆 **Single Date Mode** - Use as a single date picker
 - ⏰ **Time Picker** - Optional time selection with 12/24 hour formats
 - 🎨 **Customizable Themes** - Built-in themes (Default, Bootstrap, Material) or create your own
-- � **Inteernationalization** - Built-in Spanish locale with easy customization
+- 🌍 **Internationalization** - Built-in Spanish locale with easy customization
 - 📱 **Responsive Design** - Works on desktop and mobile devices
 - 🚀 **Zero Dependencies** - Pure JavaScript/TypeScript implementation
 - 🎛️ **Predefined Ranges** - Quick selection with common date ranges
