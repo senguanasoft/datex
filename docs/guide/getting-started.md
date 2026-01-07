@@ -1,21 +1,10 @@
 # Getting Started
 
-DateX is a modern, lightweight date range picker that works with any JavaScript framework or vanilla JavaScript. This guide will help you get up and running quickly.
-
-## What is DateX?
-
-DateX is a highly customizable date range picker component that provides:
-
-- **Intuitive Interface**: Clean, modern design that users love
-- **Flexible Configuration**: Extensive options to fit any use case
-- **Framework Agnostic**: Works with React, Vue, Angular, or vanilla JS
-- **Accessibility First**: Full keyboard navigation and screen reader support
-- **Mobile Friendly**: Touch-optimized for mobile devices
-- **Lightweight**: Small bundle size with minimal dependencies
+DateX is a modern, lightweight date range picker built with TypeScript. It provides a clean API, multiple themes, and excellent browser support.
 
 ## Installation
 
-Choose your preferred package manager:
+Install DateX using your preferred package manager:
 
 ::: code-group
 
@@ -23,137 +12,154 @@ Choose your preferred package manager:
 npm install datex
 ```
 
-```bash [yarn]
-yarn add datex
-```
-
 ```bash [pnpm]
 pnpm add datex
+```
+
+```bash [yarn]
+yarn add datex
 ```
 
 :::
 
 ## Basic Usage
 
-### HTML Setup
+### 1. Import DateX
 
-First, create an input element in your HTML:
+```javascript
+import { Datex } from "datex";
+import "datex/dist/style.css";
+```
+
+### 2. Initialize with CSS Selector
+
+DateX supports multiple ways to initialize:
+
+```javascript
+// ID selector
+const picker1 = new Datex("#date-picker");
+
+// Class selector
+const picker2 = new Datex(".date-input-range");
+
+// Attribute selector
+const picker3 = new Datex("[data-datepicker]");
+
+// DOM element
+const element = document.getElementById("my-picker");
+const picker4 = new Datex(element);
+```
+
+### 3. HTML Setup
 
 ```html
-<input type="text" id="daterange" placeholder="Select date range..." />
+<input type="text" id="date-picker" placeholder="Select date range" />
 ```
 
-### JavaScript Integration
-
-Import DateX and initialize it:
-
-```javascript
-import { DateRangePicker } from "datex";
-
-// Basic initialization
-const picker = new DateRangePicker("#daterange");
-```
-
-### With Options and Callback
-
-```javascript
-import { DateRangePicker } from "datex";
-
-const picker = new DateRangePicker(
-  "#daterange",
-  {
-    // Configuration options
-    startDate: new Date(),
-    endDate: new Date(),
-    autoApply: true,
-    ranges: {
-      Today: [new Date(), new Date()],
-      Yesterday: [
-        new Date(Date.now() - 24 * 60 * 60 * 1000),
-        new Date(Date.now() - 24 * 60 * 60 * 1000),
-      ],
-      "Last 7 Days": [
-        new Date(Date.now() - 6 * 24 * 60 * 60 * 1000),
-        new Date(),
-      ],
-    },
-  },
-  (startDate, endDate, label) => {
-    // Callback function
-    console.log("Date range selected:", {
-      start: startDate,
-      end: endDate,
-      label: label,
-    });
-  }
-);
-```
-
-## Your First Example
-
-Let's create a complete working example:
+### 4. Complete Example
 
 ```html
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DateX Example</title>
+    <link rel="stylesheet" href="node_modules/datex/dist/style.css" />
   </head>
   <body>
-    <div class="container">
-      <h1>My Date Range Picker</h1>
-      <input type="text" id="daterange" placeholder="Click to select dates" />
-      <div id="output"></div>
-    </div>
+    <input type="text" id="daterange" placeholder="Select dates" />
 
     <script type="module">
-      import { DateRangePicker } from "https://unpkg.com/datex@latest/dist/index.esm.js";
+      import {
+        Datex,
+        SPANISH_LOCALE,
+      } from "./node_modules/datex/dist/index.esm.js";
 
-      const picker = new DateRangePicker(
+      const picker = new Datex(
         "#daterange",
         {
-          autoUpdateInput: true,
+          startDate: new Date(),
+          endDate: new Date(),
+          locale: SPANISH_LOCALE,
           ranges: {
-            Today: [new Date(), new Date()],
-            "This Week": [
-              new Date(Date.now() - 6 * 24 * 60 * 60 * 1000),
-              new Date(),
+            Hoy: [new Date(), new Date()],
+            Ayer: [
+              new Date(Date.now() - 86400000),
+              new Date(Date.now() - 86400000),
             ],
-            "This Month": [
-              new Date(new Date().getFullYear(), new Date().getMonth(), 1),
-              new Date(),
-            ],
+            "Esta Semana": [getStartOfWeek(), getEndOfWeek()],
           },
         },
-        (startDate, endDate, label) => {
-          document.getElementById("output").innerHTML = `
-                <h3>Selected Range:</h3>
-                <p><strong>Start:</strong> ${startDate.toLocaleDateString()}</p>
-                <p><strong>End:</strong> ${endDate.toLocaleDateString()}</p>
-                <p><strong>Label:</strong> ${label || "Custom Range"}</p>
-            `;
+        (start, end, label) => {
+          console.log("Selected:", start, end, label);
         }
       );
+
+      function getStartOfWeek() {
+        const date = new Date();
+        const day = date.getDay();
+        const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+        return new Date(date.setDate(diff));
+      }
+
+      function getEndOfWeek() {
+        const date = getStartOfWeek();
+        return new Date(date.setDate(date.getDate() + 6));
+      }
     </script>
   </body>
 </html>
 ```
 
+## Key Features
+
+### CSS Selector Support
+
+Unlike other date pickers, DateX accepts CSS selectors directly:
+
+```javascript
+// These all work!
+new Datex("#my-picker");
+new Datex(".date-range-input");
+new Datex('[data-role="datepicker"]');
+```
+
+### Always Visible Calendars
+
+When you select predefined ranges like "Today" or "Yesterday", the calendars remain visible so you can see and modify the selected dates.
+
+### Multiple Themes
+
+Choose from built-in themes or create your own:
+
+```javascript
+import { Datex, MATERIAL_THEME, BOOTSTRAP_THEME } from "datex";
+
+// Material Design theme (green apply, red cancel)
+new Datex("#picker1", { theme: MATERIAL_THEME });
+
+// Bootstrap theme
+new Datex("#picker2", { theme: BOOTSTRAP_THEME });
+```
+
+### Spanish Locale
+
+Built-in Spanish support with proper date formatting:
+
+```javascript
+import { Datex, SPANISH_LOCALE } from "datex";
+
+new Datex("#picker", {
+  locale: SPANISH_LOCALE, // DD/MM/YYYY format
+  ranges: {
+    Hoy: [new Date(), new Date()],
+    Ayer: [yesterday, yesterday],
+    "Esta Semana": [startOfWeek, endOfWeek],
+  },
+});
+```
+
 ## Next Steps
 
-Now that you have DateX working, explore these topics:
-
-- **[Configuration Options](/guide/options)** - Learn about all available options
-- **[Themes](/guide/themes)** - Customize the appearance
-- **[Localization](/guide/localization)** - Add multi-language support
-- **[Events](/guide/events)** - Handle picker events
-- **[Examples](/examples/basic)** - See more practical examples
-
-## Need Help?
-
-- 📚 Check the [API Reference](/api/options)
-- 🎮 Try the [Interactive Playground](/playground)
-- 🐛 Report issues on [GitHub](https://github.com/senguanasoft/datex/issues)
-- 💬 Join discussions on [GitHub Discussions](https://github.com/senguanasoft/datex/discussions)
+- [Installation Guide](/guide/installation) - Detailed installation instructions
+- [Configuration Options](/guide/options) - All available options
+- [Themes](/guide/themes) - Using and customizing themes
+- [Examples](/examples/basic) - More examples and use cases

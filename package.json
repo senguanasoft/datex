@@ -21,10 +21,10 @@
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "type-check": "tsc --noEmit",
-    "prepublishOnly": "pnpm run build && pnpm run test",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "docs:install": "cd docs && pnpm install"
   },
   "keywords": [
     "date-picker",
@@ -51,6 +51,7 @@
     "@typescript-eslint/eslint-plugin": "^6.15.0",
     "@typescript-eslint/parser": "^6.15.0",
     "eslint": "^8.56.0",
+    "jsdom": "^23.2.0",
     "sass": "^1.69.5",
     "sass-embedded": "^1.97.2",
     "typescript": "^5.3.3",

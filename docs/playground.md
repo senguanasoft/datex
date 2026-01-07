@@ -2,334 +2,337 @@
 
 Try DateX live in your browser! Experiment with different configurations and see the results instantly.
 
-<div id="playground-container">
-  <div class="playground-controls">
-    <h3>Configuration</h3>
-    <div class="control-group">
-      <label>
-        <input type="checkbox" id="autoApply" /> Auto Apply
-      </label>
-      <label>
-        <input type="checkbox" id="singleDatePicker" /> Single Date Picker
-      </label>
-      <label>
-        <input type="checkbox" id="timePicker" /> Time Picker
-      </label>
-      <label>
-        <input type="checkbox" id="showDropdowns" checked /> Show Dropdowns
-      </label>
-    </div>
-    
-    <div class="control-group">
-      <label>
-        Theme:
-        <select id="themeSelect">
-          <option value="default">Default</option>
-          <option value="bootstrap">Bootstrap</option>
-          <option value="material">Material</option>
-        </select>
-      </label>
-      
-      <label>
-        Locale:
-        <select id="localeSelect">
-          <option value="english">English</option>
-          <option value="spanish">Spanish</option>
-        </select>
-      </label>
-    </div>
-    
-    <div class="control-group">
-      <label>
-        Opens:
-        <select id="opensSelect">
-          <option value="center">Center</option>
-          <option value="left">Left</option>
-          <option value="right">Right</option>
-        </select>
-      </label>
-      
-      <label>
-        Drops:
-        <select id="dropsSelect">
-          <option value="auto">Auto</option>
-          <option value="up">Up</option>
-          <option value="down">Down</option>
-        </select>
-      </label>
-    </div>
-    
-    <button id="updatePicker" class="btn-primary">Update Picker</button>
-  </div>
-  
-  <div class="playground-demo">
-    <h3>Demo</h3>
-    <input type="text" id="playground-input" placeholder="Click to select date range" />
-    
-    <div id="playground-output">
-      <h4>Selected Range:</h4>
-      <div id="output-content">No range selected yet</div>
-    </div>
-    
-    <div class="code-preview">
-      <h4>Generated Code:</h4>
-      <pre><code id="generated-code">// Configuration will appear here</code></pre>
-    </div>
-  </div>
-</div>
+## Configuration Options
 
-<script type="module">
-import { DateRangePicker, BOOTSTRAP_THEME, MATERIAL_THEME, SPANISH_LOCALE } from 'https://unpkg.com/datex@latest/dist/index.esm.js';
+### Basic Setup
 
-let currentPicker = null;
+```javascript
+import { Datex } from "datex";
 
-const themes = {
-  default: {},
-  bootstrap: BOOTSTRAP_THEME,
-  material: MATERIAL_THEME
-};
-
-const locales = {
-  english: {
-    format: 'MM/DD/YYYY',
-    separator: ' - ',
-    applyLabel: 'Apply',
-    cancelLabel: 'Cancel',
-    customRangeLabel: 'Custom Range',
-    daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-    monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-    firstDay: 0
-  },
-  spanish: SPANISH_LOCALE
-};
-
-function getCurrentConfig() {
-  return {
-    autoApply: document.getElementById('autoApply').checked,
-    singleDatePicker: document.getElementById('singleDatePicker').checked,
-    timePicker: document.getElementById('timePicker').checked,
-    showDropdowns: document.getElementById('showDropdowns').checked,
-    theme: themes[document.getElementById('themeSelect').value],
-    locale: locales[document.getElementById('localeSelect').value],
-    opens: document.getElementById('opensSelect').value,
-    drops: document.getElementById('dropsSelect').value,
-    ranges: {
-      'Today': [new Date(), new Date()],
-      'Yesterday': [
-        new Date(Date.now() - 24 * 60 * 60 * 1000),
-        new Date(Date.now() - 24 * 60 * 60 * 1000)
-      ],
-      'Last 7 Days': [
-        new Date(Date.now() - 6 * 24 * 60 * 60 * 1000),
-        new Date()
-      ],
-      'Last 30 Days': [
-        new Date(Date.now() - 29 * 24 * 60 * 60 * 1000),
-        new Date()
-      ]
-    }
-  };
-}
-
-function updateGeneratedCode() {
-  const config = getCurrentConfig();
-  const themeKey = document.getElementById('themeSelect').value;
-  const localeKey = document.getElementById('localeSelect').value;
-  
-  let code = `import { DateRangePicker`;
-  
-  if (themeKey !== 'default') {
-    code += `, ${themeKey.toUpperCase()}_THEME`;
-  }
-  
-  if (localeKey !== 'english') {
-    code += `, ${localeKey.toUpperCase()}_LOCALE`;
-  }
-  
-  code += ` } from 'datex';\n\n`;
-  code += `const picker = new DateRangePicker('#daterange', {\n`;
-  
-  if (config.autoApply) code += `  autoApply: true,\n`;
-  if (config.singleDatePicker) code += `  singleDatePicker: true,\n`;
-  if (config.timePicker) code += `  timePicker: true,\n`;
-  if (!config.showDropdowns) code += `  showDropdowns: false,\n`;
-  if (config.opens !== 'center') code += `  opens: '${config.opens}',\n`;
-  if (config.drops !== 'auto') code += `  drops: '${config.drops}',\n`;
-  
-  if (themeKey !== 'default') {
-    code += `  theme: ${themeKey.toUpperCase()}_THEME,\n`;
-  }
-  
-  if (localeKey !== 'english') {
-    code += `  locale: ${localeKey.toUpperCase()}_LOCALE,\n`;
-  }
-  
-  code += `  ranges: {\n`;
-  code += `    'Today': [new Date(), new Date()],\n`;
-  code += `    'Last 7 Days': [new Date(Date.now() - 6 * 24 * 60 * 60 * 1000), new Date()],\n`;
-  code += `    'Last 30 Days': [new Date(Date.now() - 29 * 24 * 60 * 60 * 1000), new Date()]\n`;
-  code += `  }\n`;
-  code += `}, (startDate, endDate, label) => {\n`;
-  code += `  console.log('Selected:', startDate, endDate, label);\n`;
-  code += `});`;
-  
-  document.getElementById('generated-code').textContent = code;
-}
-
-function createPicker() {
-  if (currentPicker) {
-    currentPicker.remove();
-  }
-  
-  const config = getCurrentConfig();
-  
-  currentPicker = new DateRangePicker('#playground-input', config, (startDate, endDate, label) => {
-    document.getElementById('output-content').innerHTML = `
-      <p><strong>Start:</strong> ${startDate.toLocaleDateString()}</p>
-      <p><strong>End:</strong> ${endDate.toLocaleDateString()}</p>
-      <p><strong>Label:</strong> ${label || 'Custom Range'}</p>
-    `;
-  });
-  
-  updateGeneratedCode();
-}
-
-// Initialize
-createPicker();
-
-// Event listeners
-document.getElementById('updatePicker').addEventListener('click', createPicker);
-
-// Update code when controls change
-document.querySelectorAll('#playground-container input, #playground-container select').forEach(control => {
-  control.addEventListener('change', updateGeneratedCode);
+const picker = new Datex("#daterange", {
+  // Basic options
+  autoApply: false,
+  singleDatePicker: false,
+  timePicker: false,
+  showDropdowns: true,
 });
-</script>
+```
 
-<style>
-#playground-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  margin: 2rem 0;
-  padding: 1rem;
-  border: 1px solid var(--vp-c-border);
-  border-radius: 8px;
-}
+### Theme Selection
 
-.playground-controls {
-  padding: 1rem;
-  background: var(--vp-c-bg-soft);
-  border-radius: 6px;
-}
+```javascript
+import { Datex, BOOTSTRAP_THEME, MATERIAL_THEME } from "datex";
 
-.control-group {
-  margin-bottom: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
+// Default theme
+const defaultPicker = new Datex("#default", {
+  // Uses default theme automatically
+});
 
-.control-group label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
-}
+// Bootstrap theme
+const bootstrapPicker = new Datex("#bootstrap", {
+  theme: BOOTSTRAP_THEME,
+});
 
-.control-group select {
-  padding: 0.25rem 0.5rem;
-  border: 1px solid var(--vp-c-border);
-  border-radius: 4px;
-  background: var(--vp-c-bg);
-}
+// Material theme
+const materialPicker = new Datex("#material", {
+  theme: MATERIAL_THEME,
+});
+```
 
-.btn-primary {
-  background: var(--vp-c-brand-1);
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 500;
-}
+### Locale Configuration
 
-.btn-primary:hover {
-  background: var(--vp-c-brand-2);
-}
+```javascript
+import { Datex, SPANISH_LOCALE } from "datex";
 
-.playground-demo {
-  padding: 1rem;
-}
+// English (default)
+const englishPicker = new Datex("#english", {
+  locale: {
+    format: "MM/DD/YYYY",
+    separator: " - ",
+    applyLabel: "Apply",
+    cancelLabel: "Cancel",
+    customRangeLabel: "Custom Range",
+    daysOfWeek: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+    monthNames: [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ],
+    firstDay: 0,
+  },
+});
 
-#playground-input {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid var(--vp-c-border);
-  border-radius: 4px;
-  font-size: 1rem;
-  margin-bottom: 1rem;
-}
+// Spanish
+const spanishPicker = new Datex("#spanish", {
+  locale: SPANISH_LOCALE,
+});
+```
 
-#playground-output {
-  margin: 1rem 0;
-  padding: 1rem;
-  background: var(--vp-c-bg-soft);
-  border-radius: 6px;
-}
+### Positioning Options
 
-.code-preview {
-  margin-top: 1rem;
-}
+```javascript
+// Opens to the center (default)
+const centerPicker = new Datex("#center", {
+  opens: "center",
+});
 
-.code-preview pre {
-  background: var(--vp-code-block-bg);
-  padding: 1rem;
-  border-radius: 6px;
-  overflow-x: auto;
-  font-size: 0.85rem;
-}
+// Opens to the left
+const leftPicker = new Datex("#left", {
+  opens: "left",
+});
 
-@media (max-width: 768px) {
-  #playground-container {
-    grid-template-columns: 1fr;
+// Opens to the right
+const rightPicker = new Datex("#right", {
+  opens: "right",
+});
+
+// Drops down (default)
+const downPicker = new Datex("#down", {
+  drops: "down",
+});
+
+// Drops up
+const upPicker = new Datex("#up", {
+  drops: "up",
+});
+
+// Auto positioning
+const autoPicker = new Datex("#auto", {
+  drops: "auto",
+});
+```
+
+### Complete Configuration Example
+
+```javascript
+import { Datex, MATERIAL_THEME, SPANISH_LOCALE } from "datex";
+
+const comprehensivePicker = new Datex(
+  "#comprehensive",
+  {
+    // Date constraints
+    startDate: new Date("2024-01-01"),
+    endDate: new Date("2024-01-31"),
+    minDate: new Date("2024-01-01"),
+    maxDate: new Date("2024-12-31"),
+    maxSpan: { days: 90 },
+
+    // Behavior
+    autoApply: false,
+    singleDatePicker: false,
+    showDropdowns: true,
+    linkedCalendars: true,
+    autoUpdateInput: true,
+    alwaysShowCalendars: true,
+
+    // Time picker
+    timePicker: true,
+    timePicker24Hour: true,
+    timePickerIncrement: 15,
+    timePickerSeconds: false,
+
+    // Positioning
+    opens: "center",
+    drops: "auto",
+
+    // Styling
+    theme: MATERIAL_THEME,
+    locale: SPANISH_LOCALE,
+
+    // Ranges
+    ranges: {
+      Hoy: [new Date(), new Date()],
+      Ayer: [
+        new Date(Date.now() - 24 * 60 * 60 * 1000),
+        new Date(Date.now() - 24 * 60 * 60 * 1000),
+      ],
+      "Últimos 7 días": [
+        new Date(Date.now() - 6 * 24 * 60 * 60 * 1000),
+        new Date(),
+      ],
+      "Últimos 30 días": [
+        new Date(Date.now() - 29 * 24 * 60 * 60 * 1000),
+        new Date(),
+      ],
+    },
+  },
+  (startDate, endDate, label) => {
+    console.log("Selected:", startDate, endDate, label);
   }
-}
-</style>
+);
+```
 
-## Features to Try
+## Live Examples
 
-### Basic Configuration
+For interactive examples, check out our [CodePen collection](https://codepen.io/collection/datex) or create your own:
 
-- Toggle **Auto Apply** to see immediate vs. manual date selection
-- Enable **Single Date Picker** for single date selection
-- Try **Time Picker** for date and time selection
+### HTML Setup
 
-### Themes
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DateX Example</title>
+  </head>
+  <body>
+    <input type="text" id="daterange" placeholder="Select date range" />
 
-- **Default**: Clean, modern design
-- **Bootstrap**: Bootstrap-compatible styling
-- **Material**: Material Design inspired theme
+    <script type="module">
+      import {
+        Datex,
+        MATERIAL_THEME,
+      } from "https://unpkg.com/datex@latest/dist/index.esm.js";
 
-### Positioning
+      const picker = new Datex("#daterange", {
+        theme: MATERIAL_THEME,
+        ranges: {
+          Today: [new Date(), new Date()],
+          "Last 7 Days": [
+            new Date(Date.now() - 6 * 24 * 60 * 60 * 1000),
+            new Date(),
+          ],
+        },
+      });
+    </script>
+  </body>
+</html>
+```
 
-- **Opens**: Controls where the picker appears relative to the input
-- **Drops**: Controls whether the picker drops up or down
+## Configuration Examples
 
-### Localization
+### Basic Date Range Picker
 
-- Switch between **English** and **Spanish** locales
-- Notice how date formats, labels, and first day of week change
+```javascript
+import { Datex } from "datex";
 
-## Code Generation
+const basicPicker = new Datex(
+  "#daterange",
+  {
+    // Default configuration
+  },
+  (startDate, endDate, label) => {
+    console.log("Selected:", startDate, endDate, label);
+  }
+);
+```
 
-The playground automatically generates the JavaScript code for your current configuration. Copy and paste it into your project to get the exact same setup!
+### Auto Apply Mode
 
-## Want More?
+```javascript
+const autoApplyPicker = new Datex("#auto-apply", {
+  autoApply: true, // No Apply/Cancel buttons
+});
+```
 
-This playground shows just a fraction of DateX's capabilities. For more advanced examples, check out:
+### Single Date Selection
 
-- [Basic Examples](/examples/basic)
-- [Framework Integration](/examples/frameworks)
-- [Custom Themes](/examples/themes)
-- [API Reference](/api/options)
+```javascript
+const singlePicker = new Datex("#single-date", {
+  singleDatePicker: true,
+});
+```
+
+### With Time Picker
+
+```javascript
+import { Datex, SPANISH_LOCALE_WITH_TIME } from "datex";
+
+const timePicker = new Datex("#datetime", {
+  timePicker: true,
+  timePicker24Hour: true,
+  timePickerIncrement: 15,
+  locale: SPANISH_LOCALE_WITH_TIME,
+});
+```
+
+### Different Themes
+
+```javascript
+import { Datex, BOOTSTRAP_THEME, MATERIAL_THEME } from "datex";
+
+// Bootstrap theme
+const bootstrapPicker = new Datex("#bootstrap", {
+  theme: BOOTSTRAP_THEME,
+});
+
+// Material theme
+const materialPicker = new Datex("#material", {
+  theme: MATERIAL_THEME,
+});
+```
+
+### Spanish Localization
+
+```javascript
+import { Datex, SPANISH_LOCALE } from "datex";
+
+const spanishPicker = new Datex("#spanish", {
+  locale: SPANISH_LOCALE,
+  ranges: {
+    Hoy: [new Date(), new Date()],
+    Ayer: [
+      new Date(Date.now() - 24 * 60 * 60 * 1000),
+      new Date(Date.now() - 24 * 60 * 60 * 1000),
+    ],
+    "Últimos 7 días": [
+      new Date(Date.now() - 6 * 24 * 60 * 60 * 1000),
+      new Date(),
+    ],
+  },
+});
+```
+
+## Try It Yourself
+
+Create your own DateX implementation by copying any of the examples above into your project. For a quick start:
+
+1. Install DateX: `npm install datex`
+2. Import and initialize: `import { Datex } from 'datex'`
+3. Create your picker: `new Datex('#your-input')`
+
+## Online Playground
+
+For interactive testing, you can use online code editors:
+
+- [CodePen](https://codepen.io) - Create a new pen and import DateX via CDN
+- [JSFiddle](https://jsfiddle.net) - Test DateX configurations quickly
+- [StackBlitz](https://stackblitz.com) - Full development environment
+
+### CDN Usage
+
+```html
+<script type="module">
+  import {
+    Datex,
+    MATERIAL_THEME,
+  } from "https://unpkg.com/datex@latest/dist/index.esm.js";
+
+  const picker = new Datex("#daterange", {
+    theme: MATERIAL_THEME,
+  });
+</script>
+```
+
+## Next Steps
+
+Ready to implement DateX in your project? Check out these resources:
+
+- [Getting Started](/guide/getting-started) - Quick setup guide
+- [Basic Examples](/examples/basic) - Common usage patterns
+- [Framework Integration](/examples/frameworks) - React, Vue, Angular examples
+- [API Reference](/api/options) - Complete configuration options
+
+## Need Help?
+
+- [GitHub Issues](https://github.com/senguanasoft/datex/issues) - Report bugs or request features
+- [Documentation](/guide/getting-started) - Comprehensive guides and examples
+- [Contributing](/contributing) - Help improve DateX
