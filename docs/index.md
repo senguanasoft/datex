@@ -69,8 +69,8 @@ yarn add datex
 ```
 
 ```javascript
-import { Datex } from "datex";
-import "datex/dist/style.css";
+import { Datex } from "datex-ui";
+import "datex-ui/dist/style.css";
 
 // Initialize with CSS selector
 const picker = new Datex("#date-picker", {

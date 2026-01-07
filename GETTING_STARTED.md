@@ -1,15 +1,15 @@
-# DateX - Quick Start Guide
+# DateX UI - Quick Start Guide
 
-Get up and running with DateX in minutes!
+Get up and running with DateX UI in minutes!
 
 ## 🚀 Installation
 
 ```bash
-npm install datex
+npm install datex-ui
 # or
-pnpm add datex
+pnpm add datex-ui
 # or
-yarn add datex
+yarn add datex-ui
 ```
 
 ## 📝 Basic Usage
@@ -17,7 +17,7 @@ yarn add datex
 ### Simple Date Range Picker
 
 ```javascript
-import { Datex } from "datex";
+import { Datex } from "datex-ui";
 
 // Basic usage
 const picker = new Datex("#daterange", {}, (startDate, endDate, label) => {
@@ -28,7 +28,7 @@ const picker = new Datex("#daterange", {}, (startDate, endDate, label) => {
 ### With Spanish Locale
 
 ```javascript
-import { Datex, SPANISH_LOCALE } from "datex";
+import { Datex, SPANISH_LOCALE } from "datex-ui";
 
 const picker = new Datex("#daterange", {
   locale: SPANISH_LOCALE,
@@ -49,7 +49,7 @@ const picker = new Datex("#daterange", {
 ## 🎨 Themes
 
 ```javascript
-import { Datex, BOOTSTRAP_THEME, MATERIAL_THEME } from "datex";
+import { Datex, BOOTSTRAP_THEME, MATERIAL_THEME } from "datex-ui";
 
 // Bootstrap theme
 const bootstrapPicker = new Datex("#bootstrap", {
@@ -65,7 +65,7 @@ const materialPicker = new Datex("#material", {
 ## ⏰ Time Picker
 
 ```javascript
-import { Datex, SPANISH_LOCALE_WITH_TIME } from "datex";
+import { Datex, SPANISH_LOCALE_WITH_TIME } from "datex-ui";
 
 const timePicker = new Datex("#datetime", {
   timePicker: true,
@@ -75,7 +75,7 @@ const timePicker = new Datex("#datetime", {
 
 ## 🎯 CSS Selectors
 
-DateX supports multiple ways to target elements:
+DateX UI supports multiple ways to target elements:
 
 ```javascript
 // ID selector

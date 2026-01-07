@@ -1,5 +1,6 @@
 {
-  "name": "datex",
+  "name": "datex-ui",
+  "access": "public",
   "version": "1.0.0",
   "type": "module",
   "description": "A modern, lightweight, and customizable date range picker for TypeScript/JavaScript applications",
@@ -45,10 +46,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/senguanasoft/datex.git"
+    "url": "https://github.com/senguanasoft/datex-ui.git"
   },
   "bugs": {
-    "url": "https://github.com/senguanasoft/datex/issues"
+    "url": "https://github.com/senguanasoft/datex-ui/issues"
   },
   "homepage": "https://datex-docs.vercel.app",
   "devDependencies": {

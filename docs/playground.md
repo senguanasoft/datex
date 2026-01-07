@@ -295,8 +295,8 @@ const spanishPicker = new Datex("#spanish", {
 
 Create your own DateX implementation by copying any of the examples above into your project. For a quick start:
 
-1. Install DateX: `npm install datex`
-2. Import and initialize: `import { Datex } from 'datex'`
+1. Install DateX: `npm install datex-ui`
+2. Import and initialize: `import { Datex } from 'datex-ui'`
 3. Create your picker: `new Datex('#your-input')`
 
 ## Online Playground

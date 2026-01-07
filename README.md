@@ -1,4 +1,4 @@
-# DateX - Modern Date Range Picker
+# DateX UI - Modern Date Range Picker
 
 A modern, lightweight, and customizable date range picker for TypeScript/JavaScript applications. Built with native JavaScript, no external dependencies.
 
@@ -25,17 +25,17 @@ A modern, lightweight, and customizable date range picker for TypeScript/JavaScr
 ## Installation
 
 ```bash
-npm install datex
+npm install datex-ui
 # or
-pnpm add datex
+pnpm add datex-ui
 # or
-yarn add datex
+yarn add datex-ui
 ```
 
 ## Quick Start
 
 ```typescript
-import { Datex, SPANISH_LOCALE, DEFAULT_THEME } from "datex";
+import { Datex, SPANISH_LOCALE, DEFAULT_THEME } from "datex-ui";
 
 // Basic usage with CSS selector
 const picker = new Datex(
@@ -59,7 +59,7 @@ const picker3 = new Datex(document.getElementById("my-input"));
 ### Basic Date Range Picker
 
 ```typescript
-import { Datex, SPANISH_LOCALE } from "datex";
+import { Datex, SPANISH_LOCALE } from "datex-ui";
 
 // Using CSS selectors
 const picker = new Datex(
@@ -95,7 +95,7 @@ const singlePicker = new Datex("#single-date", {
 ### With Predefined Ranges
 
 ```typescript
-import { getSpanishRanges } from "datex";
+import { getSpanishRanges } from "datex-ui";
 
 const picker = new Datex("#range-input", {
   ranges: getSpanishRanges(), // Built-in Spanish ranges
@@ -125,7 +125,7 @@ const picker2 = new Datex("#custom-ranges", {
 ### With Time Picker
 
 ```typescript
-import { SPANISH_LOCALE_WITH_TIME } from "datex";
+import { SPANISH_LOCALE_WITH_TIME } from "datex-ui";
 
 const timePicker = new Datex("#datetime-input", {
   timePicker: true,
@@ -142,7 +142,7 @@ const timePicker = new Datex("#datetime-input", {
 ### Custom Theme
 
 ```typescript
-import { Datex } from "datex";
+import { Datex } from "datex-ui";
 
 const customTheme = {
   primaryColor: "#ff6b6b",
@@ -257,7 +257,7 @@ element.addEventListener("cancel.daterangepicker", (e) => {
 For backward compatibility, you can still use the old names:
 
 ```typescript
-import { DateRangePicker } from "datex"; // Same as Datex
+import { DateRangePicker } from "datex-ui"; // Same as Datex
 // All DateRangePickerOptions, DateRangePickerTheme, etc. are available
 ```
 
