@@ -95,4 +95,16 @@ temp/
 *.njsproj
 *.sln
 *.sw?
-docs/.vitepress/*
+docs/.vitepress/cache
+docs/.vitepress/dist
+
+# Keep assets folder and images
+!assets/
+!assets/images/
+!assets/images/**/*.png
+!assets/images/**/*.jpg
+!assets/images/**/*.gif
+!docs/public/images/
+!docs/public/images/**/*.png
+!docs/public/images/**/*.jpg
+!docs/public/images/**/*.gif

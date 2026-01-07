@@ -8,6 +8,11 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist",
+    "assets/images/*.png",
+    "assets/images/*.jpg",
+    "assets/images/*.gif",
+    "assets/images/screenshots/*.png",
+    "assets/images/screenshots/*.jpg",
     "README.md",
     "LICENSE"
   ],

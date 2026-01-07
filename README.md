@@ -2,17 +2,25 @@
 
 A modern, lightweight, and customizable date range picker for TypeScript/JavaScript applications. Built with native JavaScript, no external dependencies.
 
+<!-- Add your demo GIF here -->
+
+![DateX Demo](./assets/images/demo.gif)
+
 ## Features
 
 - 📅 **Date Range Selection** - Select start and end dates with intuitive interface
-- 🎯 **Single Date Mode** - Use as a single date picker
+- � **\*Single Date Mode** - Use as a single date picker
 - ⏰ **Time Picker** - Optional time selection with 12/24 hour formats
 - 🎨 **Customizable Themes** - Built-in themes (Default, Bootstrap, Material) or create your own
-- 🌍 **Internationalization** - Built-in Spanish locale with easy customization
+- � **Inteernationalization** - Built-in Spanish locale with easy customization
 - 📱 **Responsive Design** - Works on desktop and mobile devices
 - 🚀 **Zero Dependencies** - Pure JavaScript/TypeScript implementation
 - 🎛️ **Predefined Ranges** - Quick selection with common date ranges
 - ♿ **Accessible** - Keyboard navigation and screen reader support
+
+<!-- Basic image here -->
+
+![Basic Date Range](./assets/images/screenshots/basic-date-range.png)
 
 ## Installation
 
@@ -127,6 +135,10 @@ const timePicker = new Datex("#datetime-input", {
 });
 ```
 
+<!-- Add time picker screenshot here -->
+
+![Time Picker](./assets/images/screenshots/time-picker.png)
+
 ### Custom Theme
 
 ```typescript
@@ -145,6 +157,12 @@ const picker = new Datex("#themed-input", {
   theme: customTheme,
 });
 ```
+
+### Mobile Responsive
+
+<!-- Add mobile screenshot here -->
+
+<!-- ![Mobile View](./assets/images/screenshots/mobile-view.png)-->
 
 ## Configuration Options
 

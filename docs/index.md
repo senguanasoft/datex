@@ -4,9 +4,9 @@ layout: home
 hero:
   name: "DateX"
   text: "Modern Date Range Picker"
-  tagline: "Lightweight, customizable, and framework-agnostic date range picker for modern web applications"
+  tagline: "A lightweight, customizable, and accessible date range picker for TypeScript/JavaScript applications"
   image:
-    src: /logo.svg
+    src: /datex-logo.png
     alt: DateX Logo
   actions:
     - theme: brand
@@ -15,107 +15,132 @@ hero:
     - theme: alt
       text: View on GitHub
       link: https://github.com/senguanasoft/datex
-    - theme: alt
-      text: Try Playground
-      link: /playground
 
 features:
   - icon: 🎨
-    title: Highly Customizable
-    details: Multiple built-in themes and complete CSS customization support. Make it match your brand perfectly.
-
+    title: Multiple Themes
+    details: Built-in themes including Default, Bootstrap, and Material Design with full customization support
   - icon: 🌍
     title: Internationalization
-    details: Built-in locales for multiple languages with easy custom locale support for global applications.
-
+    details: Full i18n support with Spanish locale included and easy custom locale configuration
   - icon: ⚡
     title: Lightweight & Fast
-    details: Minimal dependencies and optimized bundle size. Only ~12KB gzipped with excellent performance.
-
+    details: Only 51KB minified with zero dependencies. Built with modern TypeScript and Vite
+  - icon: 🎯
+    title: CSS Selector Support
+    details: Initialize with CSS selectors (#id, .class, [attribute]) or DOM elements
   - icon: 📱
     title: Responsive Design
-    details: Works perfectly on desktop, tablet, and mobile devices with touch-friendly interactions.
-
+    details: Mobile-friendly with touch support and responsive layouts for all screen sizes
   - icon: ♿
     title: Accessible
-    details: WCAG compliant with full keyboard navigation support and screen reader compatibility.
-
-  - icon: 🎯
-    title: TypeScript Ready
-    details: Full TypeScript support with comprehensive type definitions for better developer experience.
-
+    details: Full keyboard navigation, ARIA labels, and screen reader support
   - icon: 🕒
-    title: Time Picker Support
-    details: Optional time selection with customizable increments, 12/24 hour formats, and seconds support.
-
-  - icon: 🎪
+    title: Time Picker
+    details: Optional time selection with 12/24 hour formats and customizable increments
+  - icon: 📦
     title: Framework Agnostic
-    details: Works with vanilla JavaScript, React, Vue, Angular, Svelte, and any other framework.
-
+    details: Works with vanilla JS, React, Vue, Angular, and any other framework
+  - icon: 🎛️
+    title: Predefined Ranges
+    details: Built-in ranges like "Today", "Yesterday", "This Week" with always-visible calendars
+  - icon: 🎨
+    title: Custom Styling
+    details: Easy theming with CSS variables and SCSS support. Matches original vanilla-datetimerange-picker styles
   - icon: 🔧
-    title: Rich API
-    details: Comprehensive API with events, methods, and configuration options for any use case.
+    title: Flexible Configuration
+    details: Extensive options for date limits, auto-apply, single date mode, and more
+  - icon: 📝
+    title: TypeScript Support
+    details: Full TypeScript definitions with excellent IDE support and type safety
 ---
 
-## Quick Example
+## Quick Start
+
+```bash
+# Install with npm
+npm install datex
+
+# Install with pnpm
+pnpm add datex
+
+# Install with yarn
+yarn add datex
+```
 
 ```javascript
 import { Datex } from "datex";
+import "datex/dist/style.css";
 
-// Works with any CSS selector
-const picker = new Datex(
-  "#daterange", // ID selector
-  // ".date-picker",         // Class selector
-  // "[data-date='range']",  // Attribute selector
-  {
-    startDate: new Date(),
-    endDate: new Date(),
-    ranges: {
-      Today: [new Date(), new Date()],
-      "Last 7 Days": [
-        new Date(Date.now() - 6 * 24 * 60 * 60 * 1000),
-        new Date(),
-      ],
-      "Last 30 Days": [
-        new Date(Date.now() - 29 * 24 * 60 * 60 * 1000),
-        new Date(),
-      ],
-    },
+// Initialize with CSS selector
+const picker = new Datex("#date-picker", {
+  startDate: new Date(),
+  endDate: new Date(),
+  ranges: {
+    Hoy: [new Date(), new Date()],
+    Ayer: [new Date(Date.now() - 86400000), new Date(Date.now() - 86400000)],
+    "Esta Semana": [startOfWeek, endOfWeek],
   },
-  (startDate, endDate, label) => {
-    console.log("Selected:", startDate, endDate, label);
-  }
-);
+});
 ```
 
-## Why DateX?
+## Key Features
 
-DateX is built from the ground up to be the most developer-friendly and user-friendly date range picker available. Here's what makes it special:
+### 🎨 **Multiple Themes**
 
-### 🚀 **Modern Architecture**
+Choose from Default, Bootstrap, or Material Design themes, or create your own:
 
-Built with modern JavaScript/TypeScript, using the latest web standards and best practices.
+```javascript
+import { Datex, MATERIAL_THEME } from "datex";
 
-### 🎨 **Design System Ready**
+const picker = new Datex("#picker", {
+  theme: MATERIAL_THEME, // Green apply, red cancel buttons
+});
+```
 
-Easily integrate with any design system. Built-in themes for Bootstrap, Material Design, and more.
+### 🌍 **Spanish Locale Support**
 
-### 📦 **Zero Configuration**
+Built-in Spanish localization with proper date formats:
 
-Works out of the box with sensible defaults, but highly configurable when you need it.
+```javascript
+import { Datex, SPANISH_LOCALE } from "datex";
 
-### 🔄 **Framework Integration**
+const picker = new Datex("#picker", {
+  locale: SPANISH_LOCALE, // DD/MM/YYYY format
+});
+```
 
-First-class support for React, Vue, Angular, and other popular frameworks with dedicated guides.
+### 🎯 **CSS Selector Support**
 
-### 🌐 **Global Ready**
+Initialize with any CSS selector:
 
-Built-in internationalization with RTL support and multiple locale presets.
+```javascript
+// ID selector
+new Datex("#date-picker");
 
----
+// Class selector
+new Datex(".date-input-range");
 
-<div class="tip custom-block" style="padding-top: 8px">
+// Attribute selector
+new Datex("[data-datepicker]");
 
-Just want to try it out? Skip to the [Playground](/playground) to see DateX in action!
+// DOM element
+new Datex(document.getElementById("picker"));
+```
 
-</div>
+### 📅 **Always Visible Calendars**
+
+Calendars remain visible even when selecting predefined ranges like "Today" or "Yesterday", allowing users to see and modify dates easily.
+
+## Browser Support
+
+DateX supports all modern browsers:
+
+- Chrome 60+
+- Firefox 60+
+- Safari 12+
+- Edge 79+
+
+## License
+
+MIT License - see [LICENSE](https://github.com/senguanasoft/datex/blob/main/LICENSE) for details.
