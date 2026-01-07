@@ -1,0 +1,66 @@
+{
+  "name": "datex",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A modern, lightweight, and customizable date range picker for TypeScript/JavaScript applications",
+  "main": "dist/index.esm.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "vite build && tsc --emitDeclarationOnly",
+    "build:watch": "vite build --watch",
+    "dev": "vite dev --config vite.dev.config.ts",
+    "dev:simple": "vite serve dev --port 3000 --open",
+    "test": "vitest --run",
+    "test:watch": "vitest",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "type-check": "tsc --noEmit",
+    "prepublishOnly": "pnpm run build && pnpm run test",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "keywords": [
+    "date-picker",
+    "date-range-picker",
+    "typescript",
+    "calendar",
+    "datepicker",
+    "ui-component",
+    "vanilla-js",
+    "lightweight"
+  ],
+  "author": "Emilio Senguana sengua2017@gmail.com",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/senguanasoft/datex.git"
+  },
+  "bugs": {
+    "url": "https://github.com/senguanasoft/datex/issues"
+  },
+  "homepage": "https://datex-docs.vercel.app",
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "eslint": "^8.56.0",
+    "sass": "^1.69.5",
+    "sass-embedded": "^1.97.2",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.10",
+    "vitepress": "^1.0.0-rc.31",
+    "vitest": "^1.1.0"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.15.0"
+}

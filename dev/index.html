@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DateX Test</title>
+    <link rel="stylesheet" href="../dist/style.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+
+      .test-container {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .test-section {
+        margin: 30px 0;
+        padding: 20px;
+        border: 1px solid #e1e5e9;
+        border-radius: 8px;
+        background: #f8f9fa;
+      }
+
+      .test-section h3 {
+        margin-top: 0;
+        color: #2c3e50;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+      }
+
+      input {
+        padding: 12px;
+        margin: 10px 5px;
+        width: 250px;
+        border: 2px solid #007bff;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+
+      button {
+        padding: 10px 20px;
+        margin: 10px 5px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+      button:hover {
+        background: #0056b3;
+      }
+
+      .result {
+        margin-top: 15px;
+        padding: 15px;
+        background: #e7f3ff;
+        border-radius: 4px;
+        border-left: 4px solid #007bff;
+        font-family: monospace;
+        font-size: 13px;
+      }
+
+      .code-example {
+        background: #2d3748;
+        color: #e2e8f0;
+        padding: 15px;
+        border-radius: 4px;
+        font-family: "Courier New", monospace;
+        font-size: 12px;
+        margin: 10px 0;
+        overflow-x: auto;
+      }
+
+      .selector-demo {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        align-items: center;
+      }
+
+      .selector-info {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        padding: 10px;
+        border-radius: 4px;
+        margin: 10px 0;
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="test-container">
+      <h1>🗓️ DateX - Comprehensive Test Suite</h1>
+      <p>
+        Prueba completa del selector de rango de fechas con diferentes tipos de
+        selectores CSS
+      </p>
+
+      <!-- Selector Types Demo -->
+      <div class="test-section">
+        <h3>📍 Tipos de Selectores Soportados</h3>
+        <div class="selector-info">
+          <strong>DateX acepta:</strong> IDs (#id), clases (.class), selectores
+          CSS complejos, y elementos DOM directos
+        </div>
+
+        <div class="selector-demo">
+          <div>
+            <label>ID Selector (#date-picker):</label><br />
+            <input type="text" id="date-picker" placeholder="Selector por ID" />
+          </div>
+
+          <div>
+            <label>Class Selector (.date-input-range):</label><br />
+            <input
+              type="text"
+              class="date-input-range"
+              placeholder="Selector por clase"
+            />
+          </div>
+
+          <div>
+            <label>Attribute Selector ([data-datex]):</label><br />
+            <input
+              type="text"
+              data-datex="range"
+              placeholder="Selector por atributo"
+            />
+          </div>
+        </div>
+
+        <div class="code-example">
+          // Ejemplos de inicialización: new Datex("#date-picker"); // ID
+          selector new Datex(".date-input-range"); // Class selector new
+          Datex("[data-datex='range']"); // Attribute selector new
+          Datex("input[type='text']"); // Complex selector
+        </div>
+      </div>
+
+      <!-- Basic Range Picker -->
+      <div class="test-section">
+        <h3>📅 Selector de Rango Básico</h3>
+        <input
+          type="text"
+          id="basic-picker"
+          placeholder="Selecciona un rango de fechas"
+        />
+        <button onclick="showBasicPicker()">📅 Mostrar Picker</button>
+        <div id="basic-result" class="result">Resultado aparecerá aquí...</div>
+      </div>
+
+      <!-- Single Date Picker -->
+      <div class="test-section">
+        <h3>📆 Selector de Fecha Única</h3>
+        <input
+          type="text"
+          id="single-picker"
+          placeholder="Selecciona una fecha"
+        />
+        <button onclick="showSinglePicker()">📆 Mostrar Picker</button>
+        <div id="single-result" class="result">Resultado aparecerá aquí...</div>
+      </div>
+
+      <!-- With Predefined Ranges -->
+      <div class="test-section">
+        <h3>🎯 Con Rangos Predefinidos</h3>
+        <input
+          type="text"
+          id="ranges-picker"
+          placeholder="Rangos rápidos disponibles"
+        />
+        <button onclick="showRangesPicker()">🎯 Mostrar Picker</button>
+        <div id="ranges-result" class="result">Resultado aparecerá aquí...</div>
+      </div>
+
+      <!-- With Time Picker -->
+      <div class="test-section">
+        <h3>⏰ Con Selector de Tiempo</h3>
+        <input type="text" id="time-picker" placeholder="Fecha y hora" />
+        <button onclick="showTimePicker()">⏰ Mostrar Picker</button>
+        <div id="time-result" class="result">Resultado aparecerá aquí...</div>
+      </div>
+
+      <!-- Theme Examples -->
+      <div class="test-section">
+        <h3>🎨 Diferentes Temas</h3>
+        <div class="selector-demo">
+          <div>
+            <input
+              type="text"
+              id="default-theme"
+              placeholder="Tema por defecto"
+            />
+            <button onclick="showDefaultTheme()">Default</button>
+          </div>
+          <div>
+            <input
+              type="text"
+              id="bootstrap-theme"
+              placeholder="Tema Bootstrap"
+            />
+            <button onclick="showBootstrapTheme()">Bootstrap</button>
+          </div>
+          <div>
+            <input
+              type="text"
+              id="material-theme"
+              placeholder="Tema Material"
+            />
+            <button onclick="showMaterialTheme()">Material</button>
+          </div>
+        </div>
+        <div id="theme-result" class="result">
+          Resultado de temas aparecerá aquí...
+        </div>
+      </div>
+
+      <!-- Debug Controls -->
+      <div class="test-section">
+        <h3>🔧 Controles de Debug</h3>
+        <button onclick="debugAllPickers()">🔍 Debug Info</button>
+        <button onclick="toggleAllPickers()">🔄 Toggle All</button>
+        <button onclick="testDropdowns()">📋 Test Dropdowns</button>
+        <button onclick="showThemeInfo()">🎨 Theme Info</button>
+        <div id="debug-info" class="result" style="display: none"></div>
+      </div>
+    </div>
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "datex-docs",
+  "version": "1.0.0",
+  "description": "Documentation for DateX library",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
+  },
+  "devDependencies": {
+    "vitepress": "^1.0.0-rc.31"
+  },
+  "dependencies": {
+    "datex": "file:.."
+  }
+}
