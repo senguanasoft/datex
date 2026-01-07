@@ -4,7 +4,7 @@ A modern, lightweight, and customizable date range picker for TypeScript/JavaScr
 
 <!-- Add your demo GIF here -->
 
-![DateX Demo](https://cdn.jsdelivr.net/gh/senguanasoft/datex-ui@main/assets/images/demo.gif)
+![DateX Demo](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/demo.gif)
 
 ## Features
 
@@ -20,7 +20,7 @@ A modern, lightweight, and customizable date range picker for TypeScript/JavaScr
 
 <!-- Basic image here -->
 
-![Basic Date Range](https://cdn.jsdelivr.net/gh/senguanasoft/datex-ui@main/assets/images/screenshots/basic-date-range.png)
+![Basic Date Range](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/basic-date-range.png)
 
 ## Installation
 
@@ -137,7 +137,7 @@ const timePicker = new Datex("#datetime-input", {
 
 <!-- Add time picker screenshot here -->
 
-![Time Picker](https://cdn.jsdelivr.net/gh/senguanasoft/datex-ui@main/assets/images/screenshots/time-picker.png)
+![Time Picker](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/time-picker.png)
 
 ### Custom Theme
 
