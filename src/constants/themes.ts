@@ -1,10 +1,10 @@
 /**
- * Predefined themes for DateX
+ * Predefined themes for Datex date picker
  */
 
-import type { DateRangePickerTheme } from "../types";
+import { DatexTheme } from "../types/datex-types";
 
-export const DEFAULT_THEME: DateRangePickerTheme = {
+export const DEFAULT_THEME: DatexTheme = {
   primaryColor: "#357ebd",
   secondaryColor: "#ccc",
   backgroundColor: "#ffffff",
@@ -19,10 +19,10 @@ export const DEFAULT_THEME: DateRangePickerTheme = {
   cancelButtonColor: "#999",
   borderRadius: "4px",
   fontSize: "15px",
-  fontFamily: "Arial",
+  fontFamily: "arial",
 };
 
-export const BOOTSTRAP_THEME: DateRangePickerTheme = {
+export const BOOTSTRAP_THEME: DatexTheme = {
   primaryColor: "#0d6efd",
   secondaryColor: "#6c757d",
   backgroundColor: "#ffffff",
@@ -41,7 +41,7 @@ export const BOOTSTRAP_THEME: DateRangePickerTheme = {
     'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
 };
 
-export const MATERIAL_THEME: DateRangePickerTheme = {
+export const MATERIAL_THEME: DatexTheme = {
   primaryColor: "#1976d2",
   secondaryColor: "#757575",
   backgroundColor: "#ffffff",
@@ -57,23 +57,4 @@ export const MATERIAL_THEME: DateRangePickerTheme = {
   borderRadius: "4px",
   fontSize: "14px",
   fontFamily: 'Roboto, "Helvetica Neue", Arial, sans-serif',
-};
-
-export const DARK_THEME: DateRangePickerTheme = {
-  primaryColor: "#60a5fa",
-  secondaryColor: "#6b7280",
-  backgroundColor: "#1f2937",
-  borderColor: "#374151",
-  textColor: "#f9fafb",
-  hoverColor: "#374151",
-  selectedColor: "#3b82f6",
-  rangeColor: "#1e40af",
-  todayColor: "#60a5fa",
-  disabledColor: "#6b7280",
-  applyButtonColor: "#10b981",
-  cancelButtonColor: "#ef4444",
-  borderRadius: "6px",
-  fontSize: "14px",
-  fontFamily:
-    'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
 };

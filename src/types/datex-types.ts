@@ -1,8 +1,10 @@
 /**
- * Type definitions for DateX library
+ * Type definitions for Datex date picker
  */
 
-export interface DateRangePickerTheme {
+import { DatexValidation } from "../services/validation-service";
+
+export interface DatexTheme {
   primaryColor?: string;
   secondaryColor?: string;
   backgroundColor?: string;
@@ -20,7 +22,7 @@ export interface DateRangePickerTheme {
   fontFamily?: string;
 }
 
-export interface DateRangePickerLocale {
+export interface DatexLocale {
   format: string;
   separator: string;
   applyLabel: string;
@@ -31,7 +33,19 @@ export interface DateRangePickerLocale {
   firstDay: number;
 }
 
-export interface DateRangePickerOptions {
+export interface DatexEvents {
+  onOpen?: () => void;
+  onClose?: () => void;
+  onMonthChange?: (month: Date) => void;
+  onYearChange?: (year: number) => void;
+  onDateHover?: (date: Date) => void;
+  onValidationError?: (error: string, errorCode?: string) => void;
+  beforeDateSelect?: (date: Date) => boolean;
+  onDateSelect?: (date: Date) => void;
+  onRangeSelect?: (startDate: Date, endDate: Date) => void;
+}
+
+export interface DatexOptions {
   startDate?: Date;
   endDate?: Date;
   minDate?: Date | null;
@@ -53,14 +67,16 @@ export interface DateRangePickerOptions {
   ranges?: Record<string, [Date, Date]>;
   opens?: "left" | "right" | "center";
   drops?: "up" | "down" | "auto";
-  locale?: DateRangePickerLocale;
+  locale?: DatexLocale;
   buttonClasses?: string;
   applyButtonClasses?: string;
   cancelButtonClasses?: string;
-  theme?: DateRangePickerTheme;
+  theme?: DatexTheme;
+  validation?: DatexValidation;
+  events?: DatexEvents;
 }
 
-export type DateRangePickerCallback = (
+export type DatexCallback = (
   startDate: Date,
   endDate: Date,
   label?: string
