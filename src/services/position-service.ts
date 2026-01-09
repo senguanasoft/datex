@@ -8,6 +8,7 @@ export class PositionService {
   private element: HTMLElement;
   private container: HTMLElement;
   private options: Required<DatexOptions>;
+  private orientationChangeHandler?: () => void;
 
   constructor(
     element: HTMLElement,
@@ -17,23 +18,63 @@ export class PositionService {
     this.element = element;
     this.container = container;
     this.options = options;
+
+    // Handle orientation changes on mobile
+    this.setupOrientationHandler();
+  }
+
+  private setupOrientationHandler(): void {
+    this.orientationChangeHandler = () => {
+      // Small delay to allow for orientation change to complete
+      setTimeout(() => {
+        this.calculatePosition();
+      }, 100);
+    };
+
+    window.addEventListener("orientationchange", this.orientationChangeHandler);
+    // Also listen for resize as a fallback
+    window.addEventListener("resize", this.orientationChangeHandler);
+  }
+
+  cleanup(): void {
+    if (this.orientationChangeHandler) {
+      window.removeEventListener(
+        "orientationchange",
+        this.orientationChangeHandler
+      );
+      window.removeEventListener("resize", this.orientationChangeHandler);
+    }
   }
 
   calculatePosition(): void {
     if (!this.container) return;
 
-    // Check if it's a mobile device
-    const isMobile = window.innerWidth <= 768 || "ontouchstart" in window;
+    // Improved mobile detection
+    const isMobile = this.isMobileDevice();
 
-    if (isMobile && this.container.classList.contains("touch-enabled")) {
+    if (isMobile) {
       this.positionForMobile();
     } else {
       this.positionForDesktop();
     }
   }
 
+  private isMobileDevice(): boolean {
+    // Multiple checks for mobile detection
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isMobileUserAgent =
+      /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
+        userAgent
+      );
+    const isSmallScreen = window.innerWidth <= 768;
+    const hasTouchScreen =
+      "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
+    return isMobileUserAgent || (isSmallScreen && hasTouchScreen);
+  }
+
   private positionForMobile(): void {
-    // On mobile, position at bottom of screen for better UX
+    // Force mobile positioning with full width
     this.container.style.position = "fixed";
     this.container.style.bottom = "0";
     this.container.style.left = "0";
@@ -41,13 +82,34 @@ export class PositionService {
     this.container.style.top = "auto";
     this.container.style.width = "100%";
     this.container.style.maxWidth = "100vw";
+    this.container.style.minWidth = "100vw";
     this.container.style.borderRadius = "16px 16px 0 0";
     this.container.style.zIndex = "99999";
-    this.container.classList.add("drop-up");
+    this.container.style.margin = "0";
+    this.container.style.padding = "0";
+    this.container.style.boxSizing = "border-box";
+    this.container.style.transform = "none";
+
+    // Add mobile class for additional styling
+    this.container.classList.add("drop-up", "mobile-view");
+
+    // Remove any desktop positioning classes
+    this.container.classList.remove("opensleft", "opensright", "openscenter");
   }
 
   private positionForDesktop(): void {
     const elementRect = this.element.getBoundingClientRect();
+
+    // Remove mobile classes and styles
+    this.container.classList.remove("mobile-view");
+    this.container.style.minWidth = "";
+    this.container.style.boxSizing = "";
+    this.container.style.margin = "";
+    this.container.style.padding = "";
+    this.container.style.transform = "";
+
+    // Restore opens class based on options
+    this.container.classList.add(`opens${this.options.opens}`);
 
     this.resetContainerPosition();
 

@@ -495,6 +495,7 @@ export class Datex {
     this.themeService.cleanup();
     this.eventService.cleanup();
     this.keyboardService.cleanup();
+    this.positionService.cleanup();
 
     if (this.container?.parentNode) {
       this.container.parentNode.removeChild(this.container);
