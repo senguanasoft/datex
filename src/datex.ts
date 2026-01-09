@@ -74,6 +74,7 @@ export class Datex {
 
     this.initializeState();
     this.initializeServices();
+    this.addDropdownArrow(); // Simple arrow
     this.createContainer();
     this.setupEventListeners();
     this.updateElement();
@@ -161,6 +162,13 @@ export class Datex {
 
   private initializeServices(): void {
     this.calendarService = new CalendarService(this.options, this.locale);
+  }
+
+  private addDropdownArrow(): void {
+    // Only add arrow to input elements
+    if (this.element.tagName === "INPUT") {
+      this.element.classList.add("datex-input");
+    }
   }
 
   private createContainer(): void {
@@ -283,6 +291,11 @@ export class Datex {
     this.displayContainer();
     this.positionContainer();
 
+    // Add active state to input arrow
+    if (this.element.tagName === "INPUT") {
+      this.element.classList.add("datex-active");
+    }
+
     // Activate keyboard service with a delay to prevent scroll jump
     setTimeout(() => {
       if (this.state.isShowing) {
@@ -302,6 +315,12 @@ export class Datex {
     this.removeDocumentListeners();
     this.keyboardService.deactivate();
     this.hideContainer();
+
+    // Remove active state from input arrow
+    if (this.element.tagName === "INPUT") {
+      this.element.classList.remove("datex-active");
+    }
+
     this.dispatchHideEvent();
   }
 
@@ -479,6 +498,11 @@ export class Datex {
 
     if (this.container?.parentNode) {
       this.container.parentNode.removeChild(this.container);
+    }
+
+    // Remove arrow classes
+    if (this.element.tagName === "INPUT") {
+      this.element.classList.remove("datex-input", "datex-active");
     }
   }
 

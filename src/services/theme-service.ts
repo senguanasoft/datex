@@ -122,6 +122,19 @@ export class ThemeService {
     this.container.classList.remove("datex-light", "datex-dark");
     this.container.classList.add(`datex-${currentMode}`);
     return `
+      /* Simple dropdown arrow for inputs */
+      input.datex-input {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+        background-repeat: no-repeat !important;
+        background-position: right 10px center !important;
+        background-size: 16px !important;
+        padding-right: 35px !important;
+      }
+
+      input.datex-input.datex-active {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='18,15 12,9 6,15'%3e%3c/polyline%3e%3c/svg%3e") !important;
+      }
+
       .datex-picker {
         background-color: ${t.backgroundColor} !important;
         border: 1px solid ${t.borderColor} !important;
@@ -132,6 +145,95 @@ export class ThemeService {
         line-height: 1em !important;
         width: 278px !important;
         z-index: 3001 !important;
+      }
+
+      .datex-picker.openscenter:after {
+        top: -12px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        border-bottom-color: ${t.backgroundColor} !important;
+        border-top: none !important;
+      }
+
+      /* Opens left */
+      .datex-picker.opensleft:before {
+        top: -14px !important;
+        left: 20px !important;
+        border-bottom-color: ${t.borderColor} !important;
+        border-top: none !important;
+      }
+
+      .datex-picker.opensleft:after {
+        top: -12px !important;
+        left: 20px !important;
+        border-bottom-color: ${t.backgroundColor} !important;
+        border-top: none !important;
+      }
+
+      /* Opens right */
+      .datex-picker.opensright:before {
+        top: -14px !important;
+        right: 20px !important;
+        border-bottom-color: ${t.borderColor} !important;
+        border-top: none !important;
+      }
+
+      .datex-picker.opensright:after {
+        top: -12px !important;
+        right: 20px !important;
+        border-bottom-color: ${t.backgroundColor} !important;
+        border-top: none !important;
+      }
+
+      /* Drop up positioning */
+      .datex-picker.drop-up.openscenter:before {
+        top: auto !important;
+        bottom: -14px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        border-top-color: ${t.borderColor} !important;
+        border-bottom: none !important;
+      }
+
+      .datex-picker.drop-up.openscenter:after {
+        top: auto !important;
+        bottom: -12px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        border-top-color: ${t.backgroundColor} !important;
+        border-bottom: none !important;
+      }
+
+      .datex-picker.drop-up.opensleft:before {
+        top: auto !important;
+        bottom: -14px !important;
+        left: 20px !important;
+        border-top-color: ${t.borderColor} !important;
+        border-bottom: none !important;
+      }
+
+      .datex-picker.drop-up.opensleft:after {
+        top: auto !important;
+        bottom: -12px !important;
+        left: 20px !important;
+        border-top-color: ${t.backgroundColor} !important;
+        border-bottom: none !important;
+      }
+
+      .datex-picker.drop-up.opensright:before {
+        top: auto !important;
+        bottom: -14px !important;
+        right: 20px !important;
+        border-top-color: ${t.borderColor} !important;
+        border-bottom: none !important;
+      }
+
+      .datex-picker.drop-up.opensright:after {
+        top: auto !important;
+        bottom: -12px !important;
+        right: 20px !important;
+        border-top-color: ${t.backgroundColor} !important;
+        border-bottom: none !important;
       }
 
       .datex-picker.single {
@@ -161,22 +263,6 @@ export class ThemeService {
         -webkit-user-select: auto !important;
         -moz-user-select: auto !important;
         -ms-user-select: auto !important;
-      }
-
-      .datex-picker:before {
-        border-bottom: 7px solid #ccc !important;
-      }
-
-      .datex-picker:after {
-        border-bottom-color: ${t.backgroundColor} !important;
-      }
-
-      .datex-picker.drop-up:before {
-        border-top: 7px solid #ccc !important;
-      }
-
-      .datex-picker.drop-up:after {
-        border-top-color: ${t.backgroundColor} !important;
       }
 
       .datex-picker .calendar-table {
