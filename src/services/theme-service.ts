@@ -290,21 +290,45 @@ export class ThemeService {
         background-color: ${t.backgroundColor} !important;
         border: 1px solid ${t.backgroundColor} !important;
         border-radius: ${t.borderRadius} !important;
+        width: 100% !important;
+        table-layout: fixed !important;
+        border-collapse: collapse !important;
+        border-spacing: 0 !important;
+      }
+
+      .datex-picker .calendar-table table {
+        width: 100% !important;
+        margin: 0 !important;
+        border-spacing: 0 !important;
+        border-collapse: collapse !important;
+      }
+
+      /* Desktop: Keep original compact design */
+      .datex-picker .calendar-table tbody td {
+        text-align: center !important;
+        box-sizing: border-box !important;
+      }
+
+      .datex-picker .calendar-table thead tr:last-child th {
+        text-align: center !important;
+        box-sizing: border-box !important;
       }
 
       .datex-picker .calendar-table th,
       .datex-picker .calendar-table td {
         min-width: 28px !important;
         width: 28px !important;
-        height: 22px !important;
-        line-height: 20px !important;
-        font-size: 11px !important;
+        height: 28px !important;
+        line-height: 28px !important;
+        font-size: 12px !important;
         border-radius: 3px !important;
         border: 1px solid transparent !important;
         white-space: nowrap !important;
         cursor: pointer !important;
         text-align: center !important;
         vertical-align: middle !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
       }
 
       .datex-picker .calendar-table th {
@@ -619,7 +643,7 @@ export class ThemeService {
 
       /* Mobile-first responsive styles */
       @media (max-width: 768px) {
-        /* Prevent horizontal overflow */
+        /* Prevent horizontal overflow and fix z-index issues */
         body {
           overflow-x: hidden !important;
         }
@@ -634,14 +658,22 @@ export class ThemeService {
           width: 100% !important;
           max-width: 100vw !important;
           min-width: 100vw !important;
-          border-radius: 16px 16px 0 0 !important;
+          border-radius: 12px 12px 0 0 !important;
           margin: 0 !important;
           padding: 0 !important;
           box-sizing: border-box !important;
           transform: none !important;
           overflow-x: hidden !important;
+          z-index: 999999 !important;
+          /* Fix for overlay issues */
+          isolation: isolate !important;
+          contain: layout style !important;
+          /* Better positioning */
+          max-height: 85vh !important;
+          max-height: 85dvh !important;
         }
 
+        /* Hide arrows on mobile */
         .datex-picker:before,
         .datex-picker:after,
         .datex-picker.mobile-view:before,
@@ -649,13 +681,16 @@ export class ThemeService {
           display: none !important;
         }
 
+        /* Fix calendar container positioning */
         .datex-picker .drp-calendar,
         .datex-picker.mobile-view .drp-calendar {
           width: 100% !important;
           float: none !important;
-          padding: 8px !important;
+          padding: 6px !important;
           box-sizing: border-box !important;
           overflow-x: hidden !important;
+          position: relative !important;
+          z-index: 1 !important;
         }
 
         .datex-picker .drp-calendar.left,
@@ -665,11 +700,13 @@ export class ThemeService {
           width: 100% !important;
           float: none !important;
           clear: both !important;
-          padding: 8px !important;
+          padding: 6px !important;
           margin: 0 !important;
           box-sizing: border-box !important;
+          position: relative !important;
         }
 
+        /* Fix calendar table positioning */
         .datex-picker .drp-calendar .calendar-table,
         .datex-picker.mobile-view .drp-calendar .calendar-table {
           width: 100% !important;
@@ -678,6 +715,8 @@ export class ThemeService {
           margin: 0 !important;
           box-sizing: border-box !important;
           overflow-x: hidden !important;
+          position: relative !important;
+          z-index: 1 !important;
         }
 
         .datex-picker .drp-calendar .calendar-table table,
@@ -685,19 +724,140 @@ export class ThemeService {
           width: 100% !important;
           table-layout: fixed !important;
           border-collapse: collapse !important;
+          border-spacing: 0 !important;
+          margin: 0 !important;
+          position: relative !important;
+          z-index: 1 !important;
         }
 
-        .datex-picker .drp-calendar .calendar-table th,
-        .datex-picker .drp-calendar .calendar-table td,
-        .datex-picker.mobile-view .drp-calendar .calendar-table th,
-        .datex-picker.mobile-view .drp-calendar .calendar-table td {
-          width: 14.28% !important; /* 100% / 7 days */
+        /* CRITICAL: Uniform grid ONLY for mobile - calendar body cells (days) - SQUARE */
+        .datex-picker .drp-calendar .calendar-table tbody td,
+        .datex-picker.mobile-view .drp-calendar .calendar-table tbody td {
+          width: 14.285714% !important; /* Exactly 100% / 7 days */
+          min-width: 14.285714% !important;
+          max-width: 14.285714% !important;
+          height: 40px !important; /* Fixed height to make square-ish */
+          line-height: 40px !important;
+          padding: 0 !important;
+          margin: 0 !important;
+          text-align: center !important;
+          font-size: 15px !important;
+          font-weight: 500 !important;
+          box-sizing: border-box !important;
+          border: 1px solid transparent !important;
+          vertical-align: middle !important;
+          position: relative !important;
+          z-index: 2 !important;
+          /* Ensure clickable area */
+          cursor: pointer !important;
+          -webkit-tap-highlight-color: transparent !important;
+          touch-action: manipulation !important;
+          border-radius: 6px !important;
+        }
+
+        /* Header cells (days of week) - also uniform ONLY for mobile */
+        .datex-picker .drp-calendar .calendar-table thead tr:last-child th,
+        .datex-picker.mobile-view .drp-calendar .calendar-table thead tr:last-child th {
+          width: 14.285714% !important;
+          min-width: 14.285714% !important;
+          max-width: 14.285714% !important;
+          height: 28px !important;
+          line-height: 28px !important;
+          font-size: 11px !important;
+          font-weight: 600 !important;
+          color: ${t.textColor} !important;
+          background-color: ${t.backgroundColor} !important;
+          text-align: center !important;
+          padding: 0 !important;
+          margin: 0 !important;
+          box-sizing: border-box !important;
+          position: relative !important;
+          z-index: 2 !important;
+        }
+
+        /* Navigation header (month/year row) */
+        .datex-picker .drp-calendar .calendar-table thead tr:first-child th,
+        .datex-picker.mobile-view .drp-calendar .calendar-table thead tr:first-child th {
+          height: 36px !important;
+          line-height: 36px !important;
+          font-size: 14px !important;
+          font-weight: 600 !important;
+          padding: 0 4px !important;
+          text-align: center !important;
+          position: relative !important;
+          z-index: 2 !important;
+        }
+
+        /* Fix select dropdowns positioning */
+        .datex-picker select,
+        .datex-picker.mobile-view select {
+          position: relative !important;
+          z-index: 1000 !important;
+          background: ${t.backgroundColor} !important;
+          border: 1px solid ${t.borderColor} !important;
+          border-radius: 4px !important;
+          padding: 4px 8px !important;
+          font-size: 14px !important;
+          color: ${t.textColor} !important;
+          /* Fix for mobile browsers */
+          -webkit-appearance: menulist !important;
+          -moz-appearance: menulist !important;
+          appearance: menulist !important;
+        }
+
+        /* Month/year header should span full width */
+        .datex-picker .drp-calendar .calendar-table th.month,
+        .datex-picker.mobile-view .drp-calendar .calendar-table th.month {
+          width: auto !important;
           min-width: auto !important;
           max-width: none !important;
-          padding: 8px 2px !important;
-          text-align: center !important;
-          font-size: 14px !important;
-          box-sizing: border-box !important;
+        }
+
+        /* Fix for disabled dates appearing above calendar */
+        .datex-picker .drp-calendar .calendar-table tbody td.off,
+        .datex-picker .drp-calendar .calendar-table tbody td.disabled,
+        .datex-picker.mobile-view .drp-calendar .calendar-table tbody td.off,
+        .datex-picker.mobile-view .drp-calendar .calendar-table tbody td.disabled {
+          position: relative !important;
+          z-index: 1 !important;
+          color: ${t.disabledColor} !important;
+          background-color: transparent !important;
+          cursor: not-allowed !important;
+          pointer-events: none !important;
+        }
+
+        /* Ensure clickable dates are properly positioned */
+        .datex-picker .drp-calendar .calendar-table tbody td.available,
+        .datex-picker.mobile-view .drp-calendar .calendar-table tbody td.available {
+          position: relative !important;
+          z-index: 2 !important;
+          cursor: pointer !important;
+          pointer-events: auto !important;
+          -webkit-tap-highlight-color: rgba(0,0,0,0.1) !important;
+        }
+
+        /* iOS specific fixes */
+        @supports (-webkit-touch-callout: none) {
+          .datex-picker,
+          .datex-picker.mobile-view {
+            -webkit-overflow-scrolling: touch !important;
+            -webkit-transform: translate3d(0,0,0) !important;
+          }
+          
+          .datex-picker .drp-calendar .calendar-table tbody td,
+          .datex-picker.mobile-view .drp-calendar .calendar-table tbody td {
+            -webkit-tap-highlight-color: rgba(0,0,0,0.1) !important;
+            -webkit-touch-callout: none !important;
+            -webkit-user-select: none !important;
+          }
+        }
+
+        /* Android specific fixes */
+        @media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: .001dpcm) {
+          .datex-picker,
+          .datex-picker.mobile-view {
+            will-change: transform !important;
+          }
         }
 
         .datex-picker .ranges,
@@ -705,34 +865,97 @@ export class ThemeService {
           width: 100% !important;
           float: none !important;
           margin: 0 !important;
-          padding: 8px !important;
+          padding: 8px 0 !important;
           box-sizing: border-box !important;
-          overflow-x: hidden !important;
+          overflow-x: auto !important;
+          overflow-y: hidden !important;
+          -webkit-overflow-scrolling: touch !important;
+          scrollbar-width: none !important; /* Firefox */
+          -ms-overflow-style: none !important; /* IE/Edge */
+        }
+
+        /* Hide scrollbar for webkit browsers */
+        .datex-picker .ranges::-webkit-scrollbar,
+        .datex-picker.mobile-view .ranges::-webkit-scrollbar {
+          display: none !important;
         }
 
         .datex-picker .ranges ul,
         .datex-picker.mobile-view .ranges ul {
-          width: 100% !important;
+          width: auto !important;
+          min-width: 100% !important;
           margin: 0 !important;
-          padding: 0 !important;
+          padding: 0 8px !important;
           box-sizing: border-box !important;
+          display: flex !important;
+          flex-direction: row !important;
+          gap: 8px !important;
+          list-style: none !important;
+        }
+
+        .datex-picker .ranges li,
+        .datex-picker.mobile-view .ranges li {
+          flex: 0 0 auto !important;
+          white-space: nowrap !important;
+          font-size: 12px !important;
+          padding: 8px 12px !important;
+          cursor: pointer !important;
+          color: ${t.textColor} !important;
+          border-radius: 20px !important; /* Pill shape */
+          margin: 0 !important;
+          background-color: ${t.hoverColor} !important;
+          border: 1px solid ${t.borderColor} !important;
+          transition: all 0.2s ease !important;
+          min-width: 60px !important;
+          text-align: center !important;
+          user-select: none !important;
+          -webkit-user-select: none !important;
+          -webkit-tap-highlight-color: transparent !important;
+        }
+
+        .datex-picker .ranges li:hover,
+        .datex-picker.mobile-view .ranges li:hover {
+          background-color: ${t.rangeColor} !important;
+          color: ${t.textColor} !important;
+          transform: translateY(-1px) !important;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+        }
+
+        .datex-picker .ranges li.active,
+        .datex-picker.mobile-view .ranges li.active {
+          background-color: ${t.selectedColor} !important;
+          color: #fff !important;
+          border-color: ${t.selectedColor} !important;
+          font-weight: 600 !important;
+        }
+
+        .datex-picker .ranges li.active:hover,
+        .datex-picker.mobile-view .ranges li.active:hover {
+          background-color: ${t.selectedColor} !important;
+          color: #fff !important;
+          opacity: 0.9 !important;
+          transform: translateY(-1px) !important;
         }
 
         .datex-picker .drp-buttons,
         .datex-picker.mobile-view .drp-buttons {
           width: 100% !important;
-          padding: 12px !important;
+          padding: 8px 10px 12px 10px !important; /* Reduced bottom padding */
           box-sizing: border-box !important;
           text-align: center !important;
           overflow-x: hidden !important;
+          border-top: 1px solid ${t.borderColor} !important;
+          background-color: ${t.backgroundColor} !important;
         }
 
         .datex-picker .drp-buttons .btn,
         .datex-picker.mobile-view .drp-buttons .btn {
-          min-width: 80px !important;
-          padding: 10px 16px !important;
+          min-width: 70px !important;
+          padding: 8px 14px !important;
           margin: 0 4px !important;
           box-sizing: border-box !important;
+          font-size: 14px !important;
+          border-radius: 6px !important;
         }
 
         .datex-picker.single,
@@ -767,6 +990,26 @@ export class ThemeService {
       @media (min-width: 564px) {
         .datex-picker {
           width: auto !important;
+        }
+
+        /* Desktop: Restore original compact design */
+        .datex-picker .calendar-table {
+          width: auto !important;
+        }
+
+        .datex-picker .calendar-table table {
+          table-layout: auto !important;
+          width: auto !important;
+        }
+
+        .datex-picker .calendar-table tbody td,
+        .datex-picker .calendar-table thead tr:last-child th {
+          width: 28px !important;
+          min-width: 28px !important;
+          max-width: 28px !important;
+          height: 28px !important;
+          line-height: 28px !important;
+          font-size: 12px !important;
         }
 
         .datex-picker .ranges ul {

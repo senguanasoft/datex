@@ -60,21 +60,30 @@ export class PositionService {
   }
 
   private isMobileDevice(): boolean {
-    // Multiple checks for mobile detection
+    // Comprehensive mobile detection
     const userAgent = navigator.userAgent.toLowerCase();
     const isMobileUserAgent =
-      /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
+      /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile|tablet/i.test(
         userAgent
       );
     const isSmallScreen = window.innerWidth <= 768;
     const hasTouchScreen =
       "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    const isPortrait = window.innerHeight > window.innerWidth;
 
-    return isMobileUserAgent || (isSmallScreen && hasTouchScreen);
+    // Additional checks for specific devices
+    const isIOS = /iphone|ipad|ipod/i.test(userAgent);
+    const isAndroid = /android/i.test(userAgent);
+
+    return (
+      isMobileUserAgent ||
+      (isSmallScreen && hasTouchScreen) ||
+      (isSmallScreen && isPortrait)
+    );
   }
 
   private positionForMobile(): void {
-    // Force mobile positioning with full width
+    // Force mobile positioning with full width and proper z-index
     this.container.style.position = "fixed";
     this.container.style.bottom = "0";
     this.container.style.left = "0";
@@ -83,18 +92,45 @@ export class PositionService {
     this.container.style.width = "100%";
     this.container.style.maxWidth = "100vw";
     this.container.style.minWidth = "100vw";
-    this.container.style.borderRadius = "16px 16px 0 0";
-    this.container.style.zIndex = "99999";
+    this.container.style.borderRadius = "12px 12px 0 0";
+    this.container.style.zIndex = "999999";
     this.container.style.margin = "0";
     this.container.style.padding = "0";
     this.container.style.boxSizing = "border-box";
     this.container.style.transform = "none";
+    this.container.style.maxHeight = "85vh";
+
+    // Fix for overlay and interaction issues
+    this.container.style.isolation = "isolate";
+    this.container.style.contain = "layout style";
+    this.container.style.pointerEvents = "auto";
+    this.container.style.touchAction = "manipulation";
 
     // Add mobile class for additional styling
     this.container.classList.add("drop-up", "mobile-view");
 
     // Remove any desktop positioning classes
     this.container.classList.remove("opensleft", "opensright", "openscenter");
+
+    // Ensure the container is above everything
+    const highestZIndex = this.getHighestZIndex();
+    if (highestZIndex >= 999999) {
+      this.container.style.zIndex = (highestZIndex + 1).toString();
+    }
+  }
+
+  private getHighestZIndex(): number {
+    const elements = document.querySelectorAll("*");
+    let highest = 0;
+
+    for (let i = 0; i < elements.length; i++) {
+      const zIndex = parseInt(window.getComputedStyle(elements[i]).zIndex);
+      if (!isNaN(zIndex) && zIndex > highest) {
+        highest = zIndex;
+      }
+    }
+
+    return highest;
   }
 
   private positionForDesktop(): void {
