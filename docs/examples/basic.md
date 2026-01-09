@@ -2,6 +2,10 @@
 
 Collection of basic DateX usage examples to get you started quickly.
 
+![Basic Date Range](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/basic-range-datex-ui.png)
+
+_Basic date range picker interface_
+
 ## Simple Date Range Picker
 
 The most basic implementation with default settings:
@@ -25,6 +29,8 @@ const picker = new Datex(
 ## Single Date Picker
 
 For selecting just one date instead of a range:
+
+![Single Date Picker](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/single-datex.png)
 
 ```html
 <input type="text" id="single-date" placeholder="Select a date" />
@@ -107,6 +113,8 @@ const rangesPicker = new Datex(
 ## Date Constraints
 
 Limit selectable dates with min/max constraints:
+
+![Date Restrictions](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/restrict-datex.png)
 
 ```html
 <input type="text" id="constrained-dates" placeholder="Limited date range" />

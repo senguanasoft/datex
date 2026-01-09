@@ -2,6 +2,10 @@
 
 DateX is a modern, lightweight date range picker built with TypeScript. It provides a clean API, multiple themes, and excellent browser support.
 
+![DateX Demo](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/demo.gif)
+
+_DateX in action - showing date range selection with different themes_
+
 ## Installation
 
 Install DateX using your preferred package manager:
@@ -129,6 +133,12 @@ When you select predefined ranges like "Today" or "Yesterday", the calendars rem
 ### Multiple Themes
 
 Choose from built-in themes or create your own:
+
+![Default Theme](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/default-theme-datex.png)
+
+![Bootstrap Theme](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/bootstrap-theme-datex.png)
+
+![Material Theme](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/material-theme-datex.png)
 
 ```javascript
 import { Datex, MATERIAL_THEME, BOOTSTRAP_THEME } from "datex";

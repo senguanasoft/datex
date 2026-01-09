@@ -55,6 +55,12 @@ features:
     details: Full TypeScript definitions with excellent IDE support and type safety
 ---
 
+## Demo
+
+![DateX Demo](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/demo.gif)
+
+_Interactive demo showing date range selection, themes, and responsive design_
+
 ## Quick Start
 
 ```bash
@@ -89,6 +95,12 @@ const picker = new Datex("#date-picker", {
 ### 🎨 **Multiple Themes**
 
 Choose from Default, Bootstrap, or Material Design themes, or create your own:
+
+![Default Theme](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/default-theme-datex.png)
+
+![Bootstrap Theme](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/bootstrap-theme-datex.png)
+
+![Material Theme](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/material-theme-datex.png)
 
 ```javascript
 import { Datex, MATERIAL_THEME } from "datex";

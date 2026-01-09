@@ -2,6 +2,10 @@
 
 Learn the fundamentals of using DateX in your projects.
 
+![Basic Date Range](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/basic-range-datex-ui.png)
+
+_Basic date range selection interface_
+
 ## Quick Start
 
 The simplest way to use DateX is to create a new instance with an input element:
@@ -52,6 +56,8 @@ const picker = new Datex(element);
 
 ### Single Date Picker
 
+![Single Date Picker](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/single-datex.png)
+
 ```javascript
 const picker = new Datex("#single-date", {
   singleDatePicker: true,
@@ -67,6 +73,8 @@ const picker = new Datex("#auto-apply", {
 ```
 
 ### Date Range with Predefined Ranges
+
+![Range Selection](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/range-datex.png)
 
 ```javascript
 const picker = new Datex("#with-ranges", {

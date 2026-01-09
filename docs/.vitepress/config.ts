@@ -4,6 +4,7 @@ export default defineConfig({
   title: "DateX",
   description: "A modern, lightweight, and customizable date range picker",
   base: "/",
+  cleanUrls: true,
 
   head: [
     ["link", { rel: "icon", href: "/favicon.ico" }],

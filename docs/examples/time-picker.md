@@ -2,6 +2,10 @@
 
 Examples demonstrating DateX time picker functionality for date and time selection.
 
+![Time Picker](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/time-picker.png)
+
+_Time picker interface with hour and minute selection_
+
 ## Basic Time Picker
 
 Enable time selection with default settings:
@@ -27,6 +31,8 @@ const timePicker = new Datex(
 ## 12-Hour Format
 
 Use 12-hour format with AM/PM selector:
+
+![12-Hour Format](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/full-datetime-12h.png)
 
 ```javascript
 const picker12h = new Datex("#time-12h", {

@@ -6,6 +6,8 @@ Examples showcasing different themes and custom styling options for DateX.
 
 ### Default Theme
 
+![Default Theme](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/default-theme-datex.png)
+
 ```javascript
 import { Datex, DEFAULT_THEME } from "datex";
 
@@ -16,6 +18,8 @@ const defaultPicker = new Datex("#default-theme", {
 
 ### Bootstrap Theme
 
+![Bootstrap Theme](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/bootstrap-theme-datex.png)
+
 ```javascript
 import { Datex, BOOTSTRAP_THEME } from "datex";
 
@@ -25,6 +29,8 @@ const bootstrapPicker = new Datex("#bootstrap-theme", {
 ```
 
 ### Material Theme
+
+![Material Theme](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/material-theme-datex.png)
 
 ```javascript
 import { Datex, MATERIAL_THEME } from "datex";
@@ -37,6 +43,8 @@ const materialPicker = new Datex("#material-theme", {
 ## Custom Themes
 
 ### Dark Theme
+
+![Dark Mode](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/dark-mode-datex.png)
 
 ```javascript
 const darkTheme = {

@@ -2,6 +2,10 @@
 
 DateX includes a powerful time picker that allows users to select both dates and times with precision.
 
+![Time Picker](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/time-picker.png)
+
+_Time picker interface with hour and minute selection_
+
 ## Basic Time Picker
 
 Enable the time picker by setting the `timePicker` option:
@@ -26,6 +30,8 @@ const picker = new Datex("#time-24h", {
 ```
 
 ### 12-Hour Format with AM/PM
+
+![12-Hour Format](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/full-datetime-12h.png)
 
 ```javascript
 const picker = new Datex("#time-12h", {
@@ -61,6 +67,8 @@ const picker = new Datex("#time-with-seconds", {
 Time picker automatically adapts to your locale settings:
 
 ### Spanish with Time
+
+![Date Time Combined](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/date-time-datex.png)
 
 ```javascript
 import { SPANISH_LOCALE_WITH_TIME } from "datex";
