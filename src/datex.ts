@@ -187,6 +187,20 @@ export class Datex {
   private buildContainerTemplate(): string {
     return `
       <div class="datex-picker">
+        <div class="datex-mobile-header" style="display: none;">
+          <div class="mobile-header-content">
+            <div class="selected-range"></div>
+            <div class="range-label"></div>
+          </div>
+          <div class="mobile-header-buttons">
+            <button class="mobile-cancelBtn ${this.options.buttonClasses} ${this.options.cancelButtonClasses}" type="button">
+              ${this.locale.cancelLabel}
+            </button>
+            <button class="mobile-applyBtn ${this.options.buttonClasses} ${this.options.applyButtonClasses}" type="button">
+              ${this.locale.applyLabel}
+            </button>
+          </div>
+        </div>
         <div class="ranges"></div>
         <div class="drp-calendar left">
           <div class="calendar-table"></div>
@@ -439,7 +453,28 @@ export class Datex {
   }
 
   private positionContainer(): void {
-    setTimeout(() => this.positionService.calculatePosition(), 0);
+    setTimeout(() => {
+      this.positionService.calculatePosition();
+      // Update mobile header content after positioning
+      this.updateMobileHeaderIfVisible();
+    }, 0);
+  }
+
+  private updateMobileHeaderIfVisible(): void {
+    const mobileHeader = this.container.querySelector(
+      ".datex-mobile-header"
+    ) as HTMLElement;
+    if (
+      mobileHeader &&
+      window.getComputedStyle(mobileHeader).display !== "none"
+    ) {
+      // Get current selected display text
+      const selectedSpan = this.container.querySelector(".drp-selected");
+      if (selectedSpan) {
+        const dateText = selectedSpan.textContent || "";
+        this.updateMobileHeader(dateText);
+      }
+    }
   }
 
   private revertIfIncomplete(): void {
@@ -637,9 +672,9 @@ export class Datex {
 
     if (target.matches(".ranges li")) {
       this.handleRangeClick(event);
-    } else if (target.matches(".applyBtn")) {
+    } else if (target.matches(".applyBtn, .mobile-applyBtn")) {
       this.handleApplyClick();
-    } else if (target.matches(".cancelBtn")) {
+    } else if (target.matches(".cancelBtn, .mobile-cancelBtn")) {
       this.handleCancelClick();
     } else if (target.matches(".prev")) {
       this.handlePrevClick(event);
@@ -1181,6 +1216,9 @@ export class Datex {
           isSameDate(this.state.startDate, this.state.endDate, "day")));
 
     applyBtn.disabled = !isValid;
+
+    // Also update mobile header buttons
+    this.updateMobileHeaderButtons();
   }
 
   private updateSelectedDisplay(): void {
@@ -1194,6 +1232,58 @@ export class Datex {
     }
 
     selectedSpan.textContent = text;
+
+    // Update mobile header
+    this.updateMobileHeader(text);
+  }
+
+  private updateMobileHeader(dateText: string): void {
+    const mobileHeader = this.container.querySelector(
+      ".datex-mobile-header"
+    ) as HTMLElement;
+    const selectedRange = this.container.querySelector(
+      ".datex-mobile-header .selected-range"
+    ) as HTMLElement;
+    const rangeLabel = this.container.querySelector(
+      ".datex-mobile-header .range-label"
+    ) as HTMLElement;
+
+    if (mobileHeader && selectedRange && rangeLabel) {
+      selectedRange.textContent = dateText;
+
+      // Show range label if available
+      if (
+        this.state.chosenLabel &&
+        this.state.chosenLabel !== this.locale.customRangeLabel
+      ) {
+        rangeLabel.textContent = this.state.chosenLabel;
+        rangeLabel.style.display = "block";
+      } else {
+        rangeLabel.style.display = "none";
+      }
+
+      // Update button states in mobile header
+      this.updateMobileHeaderButtons();
+    }
+  }
+
+  private updateMobileHeaderButtons(): void {
+    const mobileApplyBtn = this.container.querySelector(
+      ".mobile-applyBtn"
+    ) as HTMLButtonElement;
+
+    if (mobileApplyBtn) {
+      const isValid =
+        this.options.singleDatePicker ||
+        (this.state.endDate &&
+          (isBeforeDate(this.state.startDate, this.state.endDate) ||
+            isSameDate(this.state.startDate, this.state.endDate, "day")));
+
+      mobileApplyBtn.disabled = !isValid;
+
+      // The disabled styling is now handled by CSS
+      // No need to manually set opacity and cursor here
+    }
   }
 
   private updateElement(): void {

@@ -112,6 +112,9 @@ export class PositionService {
     // Remove any desktop positioning classes
     this.container.classList.remove("opensleft", "opensright", "openscenter");
 
+    // Show mobile header
+    this.showMobileHeader();
+
     // Ensure the container is above everything
     const highestZIndex = this.getHighestZIndex();
     if (highestZIndex >= 999999) {
@@ -143,6 +146,9 @@ export class PositionService {
     this.container.style.margin = "";
     this.container.style.padding = "";
     this.container.style.transform = "";
+
+    // Hide mobile header on desktop
+    this.hideMobileHeader();
 
     // Restore opens class based on options
     this.container.classList.add(`opens${this.options.opens}`);
@@ -241,5 +247,23 @@ export class PositionService {
     this.container.style.left = `${left}px`;
     this.container.style.right = "auto";
     this.container.style.zIndex = "99999";
+  }
+
+  private showMobileHeader(): void {
+    const mobileHeader = this.container.querySelector(
+      ".datex-mobile-header"
+    ) as HTMLElement;
+    if (mobileHeader) {
+      mobileHeader.style.display = "block";
+    }
+  }
+
+  private hideMobileHeader(): void {
+    const mobileHeader = this.container.querySelector(
+      ".datex-mobile-header"
+    ) as HTMLElement;
+    if (mobileHeader) {
+      mobileHeader.style.display = "none";
+    }
   }
 }

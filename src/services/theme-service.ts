@@ -673,6 +673,125 @@ export class ThemeService {
           max-height: 85dvh !important;
         }
 
+        /* Mobile header with selected date and buttons */
+        .datex-picker .datex-mobile-header,
+        .datex-picker.mobile-view .datex-mobile-header {
+          width: 100% !important;
+          background-color: ${t.backgroundColor} !important;
+          color: ${t.textColor} !important;
+          border-radius: 12px 12px 0 0 !important;
+          box-sizing: border-box !important;
+          position: relative !important;
+          z-index: 3 !important;
+          border-bottom: 1px solid ${t.borderColor} !important;
+          display: flex !important;
+          flex-direction: column !important;
+          gap: 0 !important;
+        }
+
+        .datex-picker .datex-mobile-header .mobile-header-content,
+        .datex-picker.mobile-view .datex-mobile-header .mobile-header-content {
+          padding: 12px 16px 8px 16px !important;
+          text-align: center !important;
+          flex: 1 !important;
+        }
+
+        .datex-picker .datex-mobile-header .mobile-header-buttons,
+        .datex-picker.mobile-view .datex-mobile-header .mobile-header-buttons {
+          display: flex !important;
+          justify-content: space-between !important;
+          align-items: center !important;
+          padding: 8px 16px 12px 16px !important;
+          gap: 12px !important;
+          border-top: 1px solid ${t.borderColor} !important;
+          background-color: ${
+            currentMode === "dark" ? "#374151" : "#f9fafb"
+          } !important;
+        }
+
+        .datex-picker .datex-mobile-header .selected-range,
+        .datex-picker.mobile-view .datex-mobile-header .selected-range {
+          display: block !important;
+          font-size: 16px !important;
+          font-weight: 600 !important;
+          line-height: 1.2 !important;
+          color: ${t.textColor} !important;
+        }
+
+        .datex-picker .datex-mobile-header .range-label,
+        .datex-picker.mobile-view .datex-mobile-header .range-label {
+          display: block !important;
+          font-size: 12px !important;
+          font-weight: 400 !important;
+          opacity: 0.7 !important;
+          margin-top: 2px !important;
+          color: ${t.textColor} !important;
+        }
+
+        .datex-picker .datex-mobile-header .mobile-cancelBtn,
+        .datex-picker .datex-mobile-header .mobile-applyBtn,
+        .datex-picker.mobile-view .datex-mobile-header .mobile-cancelBtn,
+        .datex-picker.mobile-view .datex-mobile-header .mobile-applyBtn {
+          flex: 1 !important;
+          padding: 8px 16px !important;
+          border-radius: 6px !important;
+          font-size: 14px !important;
+          font-weight: 600 !important;
+          cursor: pointer !important;
+          transition: all 0.2s ease !important;
+          color: #fff !important;
+          border: none !important;
+        }
+
+        /* Cancel button - Red/danger color */
+        .datex-picker .datex-mobile-header .mobile-cancelBtn,
+        .datex-picker.mobile-view .datex-mobile-header .mobile-cancelBtn {
+          background: ${t.cancelButtonColor} !important;
+          border: 1px solid ${t.cancelButtonColor} !important;
+        }
+
+        .datex-picker .datex-mobile-header .mobile-cancelBtn:hover,
+        .datex-picker.mobile-view .datex-mobile-header .mobile-cancelBtn:hover {
+          background: ${t.cancelButtonColor} !important;
+          opacity: 0.8 !important;
+          transform: translateY(-1px) !important;
+          box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3) !important;
+        }
+
+        /* Apply button - Green/success color */
+        .datex-picker .datex-mobile-header .mobile-applyBtn,
+        .datex-picker.mobile-view .datex-mobile-header .mobile-applyBtn {
+          background: ${t.applyButtonColor} !important;
+          border: 1px solid ${t.applyButtonColor} !important;
+        }
+
+        .datex-picker .datex-mobile-header .mobile-applyBtn:hover,
+        .datex-picker.mobile-view .datex-mobile-header .mobile-applyBtn:hover {
+          background: ${t.applyButtonColor} !important;
+          opacity: 0.8 !important;
+          transform: translateY(-1px) !important;
+          box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3) !important;
+        }
+
+        /* Disabled state for apply button */
+        .datex-picker .datex-mobile-header .mobile-applyBtn:disabled,
+        .datex-picker.mobile-view .datex-mobile-header .mobile-applyBtn:disabled {
+          background: #9ca3af !important;
+          border-color: #9ca3af !important;
+          opacity: 0.6 !important;
+          cursor: not-allowed !important;
+          transform: none !important;
+          box-shadow: none !important;
+        }
+
+        .datex-picker .datex-mobile-header .mobile-cancelBtn:active,
+        .datex-picker .datex-mobile-header .mobile-applyBtn:active,
+        .datex-picker.mobile-view .datex-mobile-header .mobile-cancelBtn:active,
+        .datex-picker.mobile-view .datex-mobile-header .mobile-applyBtn:active {
+          transform: translateY(1px) !important;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.2) !important;
+        }
+
         /* Hide arrows on mobile */
         .datex-picker:before,
         .datex-picker:after,
@@ -946,6 +1065,7 @@ export class ThemeService {
           overflow-x: hidden !important;
           border-top: 1px solid ${t.borderColor} !important;
           background-color: ${t.backgroundColor} !important;
+          display: none !important; /* Hide on mobile - buttons are in header */
         }
 
         .datex-picker .drp-buttons .btn,
@@ -990,6 +1110,15 @@ export class ThemeService {
       @media (min-width: 564px) {
         .datex-picker {
           width: auto !important;
+        }
+
+        /* Desktop: Show normal buttons, hide mobile header */
+        .datex-picker .drp-buttons {
+          display: block !important;
+        }
+
+        .datex-picker .datex-mobile-header {
+          display: none !important;
         }
 
         /* Desktop: Restore original compact design */
