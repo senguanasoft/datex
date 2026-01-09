@@ -2,8 +2,6 @@
 
 A modern, lightweight, and customizable date range picker for TypeScript/JavaScript applications. Built with native JavaScript, no external dependencies.
 
-<!-- Add your demo GIF here -->
-
 ![DateX Demo](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/demo.gif)
 
 ## Features
@@ -18,9 +16,31 @@ A modern, lightweight, and customizable date range picker for TypeScript/JavaScr
 - 🎛️ **Predefined Ranges** - Quick selection with common date ranges
 - ♿ **Accessible** - Keyboard navigation and screen reader support
 
-<!-- Basic image here -->
+## Themes
 
-![Basic Date Range](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/basic-date-range.png)
+DateX UI comes with multiple built-in themes to match your application's design:
+
+### Default Theme
+
+![Default Theme](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/default-theme-datex.png)
+
+### Bootstrap Theme
+
+![Bootstrap Theme](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/bootstrap-theme-datex.png)
+
+### Material Theme
+
+![Material Theme](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/material-theme-datex.png)
+
+## Screenshots
+
+### Basic Date Range Selection
+
+![Basic Date Range](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/basic-range-datex-ui.png)
+
+### Single Date Picker
+
+![Single Date Picker](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/single-datex.png)
 
 ## Installation
 
@@ -135,9 +155,11 @@ const timePicker = new Datex("#datetime-input", {
 });
 ```
 
-<!-- Add time picker screenshot here -->
-
 ![Time Picker](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/time-picker.png)
+
+### Date and Time Combined
+
+![Full DateTime](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/full-datetime-12h.png)
 
 ### Custom Theme
 
@@ -158,11 +180,25 @@ const picker = new Datex("#themed-input", {
 });
 ```
 
+### Dark Mode Support
+
+![Dark Mode](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/dark-mode-datex.png)
+
+### Light Mode
+
+![Light Mode](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/light-mode-datex.png)
+
+### Date Restrictions
+
+You can restrict selectable dates with min/max date options:
+
+![Date Restrictions](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/restrict-datex.png)
+
 ### Mobile Responsive
 
-<!-- Add mobile screenshot here -->
+DateX UI is fully responsive and works great on mobile devices:
 
-<!-- ![Mobile View](./assets/images/screenshots/mobile-view.png)-->
+![Range Selection](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/range-datex.png)
 
 ## Configuration Options
 
@@ -199,6 +235,14 @@ interface DatexOptions {
 - `DEFAULT_THEME` - Clean, modern default theme
 - `BOOTSTRAP_THEME` - Bootstrap-compatible styling
 - `MATERIAL_THEME` - Material Design inspired theme
+
+## Visual Examples
+
+### Date and Time Picker
+
+![Date Time Picker](https://cdn.jsdelivr.net/gh/senguanasoft/datex@main/assets/images/screenshots/date-time-datex.png)
+
+_Combined date and time selection with 12/24 hour format support_
 
 ## Built-in Locales
 
