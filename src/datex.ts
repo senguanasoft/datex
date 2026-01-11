@@ -414,6 +414,124 @@ export class Datex {
     this.keyboardService.setFocusedDate(date);
   }
 
+  updateOptions(newOptions: Partial<DatexOptions>): void {
+    // Merge new options with existing ones
+    const updatedOptions = { ...this.options, ...newOptions };
+
+    // Validate and process the updated options
+    this.options = this.mergeWithDefaults(updatedOptions);
+
+    // Update locale if provided
+    if (newOptions.locale) {
+      this.locale = newOptions.locale;
+    }
+
+    // Re-initialize services that depend on options
+    this.reinitializeServices();
+
+    // Update container classes and structure
+    this.updateContainerConfiguration();
+
+    // Update view to reflect changes
+    this.updateView();
+
+    // Reposition if showing
+    if (this.state.isShowing) {
+      this.positionContainer();
+    }
+  }
+
+  private reinitializeServices(): void {
+    // Update calendar service with new options
+    this.calendarService = new CalendarService(this.options, this.locale);
+
+    // Update validation service
+    this.validationService.updateValidation(this.options.validation);
+
+    // Update theme if changed
+    this.themeService.setTheme(this.options.theme);
+
+    // Update position service options
+    this.positionService = new PositionService(
+      this.element,
+      this.container,
+      this.options
+    );
+  }
+
+  private updateContainerConfiguration(): void {
+    // Update single date picker class
+    if (this.options.singleDatePicker) {
+      this.container.classList.add("single");
+    } else {
+      this.container.classList.remove("single");
+    }
+
+    // Update auto apply class
+    if (this.options.autoApply) {
+      this.container.classList.add("auto-apply");
+    } else {
+      this.container.classList.remove("auto-apply");
+    }
+
+    // Update opens class
+    this.container.classList.remove("opensleft", "opensright", "openscenter");
+    this.container.classList.add(`opens${this.options.opens}`);
+
+    // Update ranges
+    if (Object.keys(this.options.ranges).length > 0) {
+      this.container.classList.add("show-ranges");
+      this.renderRanges();
+    } else {
+      this.container.classList.remove("show-ranges");
+    }
+
+    // Update calendar visibility
+    if (
+      this.options.alwaysShowCalendars ||
+      Object.keys(this.options.ranges).length === 0
+    ) {
+      this.container.classList.add("show-calendar");
+    }
+
+    if (!this.options.autoApply) {
+      this.container.classList.add("show-calendar");
+    }
+
+    // Update time picker visibility
+    const timeContainers = this.container.querySelectorAll(".calendar-time");
+    timeContainers.forEach((container) => {
+      (container as HTMLElement).style.display = this.options.timePicker
+        ? "block"
+        : "none";
+    });
+
+    // Update button labels
+    this.updateButtonLabels();
+  }
+
+  private updateButtonLabels(): void {
+    // Update apply button labels
+    const applyButtons = this.container.querySelectorAll(
+      ".applyBtn, .mobile-applyBtn"
+    );
+    applyButtons.forEach((btn) => {
+      btn.textContent = this.locale.applyLabel;
+    });
+
+    // Update cancel button labels
+    const cancelButtons = this.container.querySelectorAll(
+      ".cancelBtn, .mobile-cancelBtn"
+    );
+    cancelButtons.forEach((btn) => {
+      btn.textContent = this.locale.cancelLabel;
+    });
+  }
+
+  getOptions(): Required<DatexOptions> {
+    return { ...this.options };
+  }
+
   remove(): void {
     this.cleanup();
   }

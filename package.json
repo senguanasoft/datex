@@ -1,7 +1,7 @@
 {
   "name": "datex-ui",
   "access": "public",
-  "version": "1.1.10",
+  "version": "1.1.12",
   "type": "module",
   "description": "A modern, lightweight, and customizable date range picker for TypeScript/JavaScript applications",
   "main": "dist/index.esm.js",
