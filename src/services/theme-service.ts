@@ -144,7 +144,7 @@ export class ThemeService {
         color: ${t.textColor} !important;
         line-height: 1em !important;
         width: 278px !important;
-        z-index: 3001 !important;
+        z-index: 999999 !important;
       }
 
       /* Base arrow styles - creates the dropdown arrow */
