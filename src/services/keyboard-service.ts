@@ -34,7 +34,7 @@ export class KeyboardService {
   constructor(container: HTMLElement, options: KeyboardOptions = {}) {
     this.container = container;
     this.options = {
-      enabled: true,
+      enabled: false, // Deshabilitado por defecto para evitar conflictos
       shortcuts: {
         today: "t",
         clear: "c",
@@ -384,7 +384,8 @@ export class KeyboardService {
     const style = document.createElement("style");
     style.className = "keyboard-focus-styles";
     style.textContent = `
-      .datex-picker .calendar-table td.keyboard-focused {
+      /* Keyboard focus - solo para fechas NO seleccionadas */
+      .datex-picker .calendar-table td.keyboard-focused:not(.start-date):not(.end-date):not(.active) {
         outline: 2px solid #10b981 !important;
         outline-offset: -2px !important;
         z-index: 10 !important;
@@ -392,10 +393,21 @@ export class KeyboardService {
         box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2) !important;
       }
       
-      .datex-picker .calendar-table td.keyboard-focused > * {
+      .datex-picker .calendar-table td.keyboard-focused:not(.start-date):not(.end-date):not(.active) > * {
         background: #10b981 !important;
         color: white !important;
         font-weight: 600 !important;
+      }
+
+      /* Keyboard focus para fechas seleccionadas - solo un outline sutil */
+      .datex-picker .calendar-table td.keyboard-focused.start-date,
+      .datex-picker .calendar-table td.keyboard-focused.end-date,
+      .datex-picker .calendar-table td.keyboard-focused.active {
+        outline: 2px solid rgba(255, 255, 255, 0.5) !important;
+        outline-offset: -2px !important;
+        z-index: 10 !important;
+        position: relative !important;
+        box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1) !important;
       }
       
       /* Prevent layout shifts */

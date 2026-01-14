@@ -89,6 +89,230 @@ export class ThemeService {
     return this.theme;
   }
 
+  private isMaterialTheme(): boolean {
+    // Check if the theme has Material Design characteristics
+    // Material theme typically has borderRadius of 8px and uses Roboto font
+    return (
+      this.theme.borderRadius === "8px" &&
+      (this.theme.fontFamily?.includes("Roboto") ?? false)
+    );
+  }
+
+  private getMaterialDesignStyles(
+    t: DatexTheme,
+    currentMode: "light" | "dark"
+  ): string {
+    return `
+      /* Material Design - Contenedor principal con elevación */
+      .datex-picker.datex-material {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15), 
+                    0 2px 4px rgba(0, 0, 0, 0.12) !important;
+        border: none !important;
+        border-radius: 8px !important;
+      }
+
+      /* Material Design - Celdas de calendario con bordes más redondeados */
+      .datex-picker.datex-material .calendar-table th,
+      .datex-picker.datex-material .calendar-table td {
+        border-radius: 50% !important; /* Círculos completos para las fechas */
+      }
+
+      /* Material Design - Fechas seleccionadas con bordes redondeados */
+      .datex-picker.datex-material .calendar-table td.start-date {
+        border-radius: 50% 0 0 50% !important;
+        background-color: ${t.selectedColor} !important;
+        color: #fff !important;
+        border-color: transparent !important;
+      }
+
+      .datex-picker.datex-material .calendar-table td.end-date {
+        border-radius: 0 50% 50% 0 !important;
+        background-color: ${t.selectedColor} !important;
+        color: #fff !important;
+        border-color: transparent !important;
+      }
+
+      .datex-picker.datex-material .calendar-table td.start-date.end-date {
+        border-radius: 50% !important;
+        background-color: ${t.selectedColor} !important;
+        color: #fff !important;
+        border-color: transparent !important;
+      }
+
+      /* Material Design - Fechas activas */
+      .datex-picker.datex-material .calendar-table td.active,
+      .datex-picker.datex-material .calendar-table td.active:hover {
+        background-color: ${t.selectedColor} !important;
+        color: #fff !important;
+        border-color: transparent !important;
+      }
+
+      /* Material Design - Asegurar que end-date siempre tenga el color correcto */
+      .datex-picker.datex-material .calendar-table tbody td.end-date,
+      .datex-picker.datex-material .calendar-table tbody td.end-date:hover {
+        background-color: ${t.selectedColor} !important;
+        color: #fff !important;
+        border-color: transparent !important;
+      }
+
+      .datex-picker.datex-material .calendar-table tbody td.start-date,
+      .datex-picker.datex-material .calendar-table tbody td.start-date:hover {
+        background-color: ${t.selectedColor} !important;
+        color: #fff !important;
+        border-color: transparent !important;
+      }
+
+      /* Material Design - Rango con bordes suaves */
+      .datex-picker.datex-material td.in-range {
+        border-radius: 0 !important;
+        background-color: ${t.rangeColor} !important;
+      }
+
+      /* Material Design - Botones con elevación y ripple effect */
+      .datex-picker.datex-material .drp-buttons .datex-btn {
+        border-radius: 4px !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        text-transform: uppercase !important;
+        font-weight: 500 !important;
+        letter-spacing: 0.5px !important;
+      }
+
+      .datex-picker.datex-material .drp-buttons .datex-btn:hover:not(:disabled) {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+        transform: translateY(-1px) !important;
+      }
+
+      .datex-picker.datex-material .drp-buttons .datex-btn:active:not(:disabled) {
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+        transform: translateY(0) !important;
+      }
+
+      /* Material Design - Botones móviles */
+      .datex-picker.datex-material .datex-mobile-header .mobile-cancelBtn,
+      .datex-picker.datex-material .datex-mobile-header .mobile-applyBtn {
+        border-radius: 4px !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+        text-transform: uppercase !important;
+        font-weight: 500 !important;
+        letter-spacing: 0.5px !important;
+      }
+
+      /* Material Design - Ranges con bordes pill más pronunciados */
+      .datex-picker.datex-material .ranges li {
+        border-radius: 16px !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      }
+
+      .datex-picker.datex-material .ranges li:hover {
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12) !important;
+        transform: translateY(-1px) !important;
+      }
+
+      .datex-picker.datex-material .ranges li.active {
+        box-shadow: 0 3px 8px rgba(25, 118, 210, 0.25) !important;
+      }
+
+      /* Material Design - Selectores con bordes redondeados */
+      .datex-picker.datex-material select.monthselect,
+      .datex-picker.datex-material select.yearselect,
+      .datex-picker.datex-material select.hourselect,
+      .datex-picker.datex-material select.minuteselect,
+      .datex-picker.datex-material select.secondselect,
+      .datex-picker.datex-material select.ampmselect {
+        border-radius: 4px !important;
+        border: 1px solid ${t.borderColor} !important;
+        transition: border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      }
+
+      .datex-picker.datex-material select:focus {
+        border-color: ${t.primaryColor} !important;
+        outline: none !important;
+        box-shadow: 0 0 0 2px ${t.rangeColor} !important;
+      }
+
+      /* Material Design - Hover states más suaves */
+      .datex-picker.datex-material td.available:hover,
+      .datex-picker.datex-material th.available:hover {
+        background-color: ${
+          currentMode === "dark" ? "#4b5563" : "#f5f5f5"
+        } !important;
+        transform: scale(1.05) !important;
+        transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      }
+
+      /* Material Design - Navegación con iconos más suaves */
+      .datex-picker.datex-material .calendar-table .next:hover,
+      .datex-picker.datex-material .calendar-table .prev:hover {
+        background-color: ${
+          currentMode === "dark" ? "#4b5563" : "#f5f5f5"
+        } !important;
+        border-radius: 50% !important;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      }
+
+      /* Material Design - Flecha del dropdown más suave */
+      .datex-picker.datex-material:before {
+        border-bottom: 8px solid ${t.backgroundColor} !important;
+        filter: drop-shadow(0 -2px 4px rgba(0, 0, 0, 0.1)) !important;
+      }
+
+      .datex-picker.datex-material:after {
+        display: none !important;
+      }
+
+      /* Material Design - Mobile header con elevación */
+      @media (max-width: 768px) {
+        .datex-picker.datex-material,
+        .datex-picker.datex-material.mobile-view {
+          border-radius: 16px 16px 0 0 !important;
+          box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        .datex-picker.datex-material .datex-mobile-header,
+        .datex-picker.datex-material.mobile-view .datex-mobile-header {
+          border-radius: 16px 16px 0 0 !important;
+        }
+
+        /* Material Design - Celdas móviles circulares */
+        .datex-picker.datex-material .drp-calendar .calendar-table tbody td,
+        .datex-picker.datex-material.mobile-view .drp-calendar .calendar-table tbody td {
+          border-radius: 50% !important;
+        }
+
+        .datex-picker.datex-material .calendar-table tbody td.start-date,
+        .datex-picker.datex-material .calendar-table tbody td.start-date:hover {
+          border-radius: 50% !important;
+          background-color: ${t.selectedColor} !important;
+          color: #fff !important;
+          border-color: transparent !important;
+        }
+
+        .datex-picker.datex-material .calendar-table tbody td.end-date,
+        .datex-picker.datex-material .calendar-table tbody td.end-date:hover {
+          border-radius: 50% !important;
+          background-color: ${t.selectedColor} !important;
+          color: #fff !important;
+          border-color: transparent !important;
+        }
+
+        .datex-picker.datex-material .calendar-table tbody td.in-range {
+          border-radius: 50% !important;
+          opacity: 0.7 !important;
+          background-color: ${t.rangeColor} !important;
+        }
+
+        .datex-picker.datex-material .calendar-table tbody td.active,
+        .datex-picker.datex-material .calendar-table tbody td.active:hover {
+          background-color: ${t.selectedColor} !important;
+          color: #fff !important;
+          border-color: transparent !important;
+        }
+      }
+    `;
+  }
+
   private removeExistingStyles(): void {
     if (this.styleId) {
       const existingStyle = document.getElementById(this.styleId);
@@ -117,10 +341,20 @@ export class ThemeService {
   private generateThemeCSS(): string {
     const t = this.getThemeForMode();
     const currentMode = this.getCurrentMode();
+    const isMaterialTheme = this.isMaterialTheme();
 
     // Add theme mode class to container
-    this.container.classList.remove("datex-light", "datex-dark");
+    this.container.classList.remove(
+      "datex-light",
+      "datex-dark",
+      "datex-material"
+    );
     this.container.classList.add(`datex-${currentMode}`);
+
+    // Add material class if using material theme
+    if (isMaterialTheme) {
+      this.container.classList.add("datex-material");
+    }
     return `
       /* Simple dropdown arrow for inputs */
       input.datex-input {
@@ -516,7 +750,7 @@ export class ThemeService {
         color: ${t.textColor} !important;
       }
 
-      .datex-picker .drp-buttons .btn {
+      .datex-picker .drp-buttons .datex-btn {
         margin-left: 4px !important;
         font-size: 12px !important;
         font-weight: bold !important;
@@ -527,25 +761,25 @@ export class ThemeService {
         transition: all 0.15s ease-in-out !important;
       }
 
-      .datex-picker .drp-buttons .btn.btn-success {
+      .datex-picker .drp-buttons .datex-btn.datex-btn-success {
         background-color: ${t.applyButtonColor} !important;
         border-color: ${t.applyButtonColor} !important;
         color: #fff !important;
       }
 
-      .datex-picker .drp-buttons .btn.btn-success:hover:not(:disabled) {
+      .datex-picker .drp-buttons .datex-btn.datex-btn-success:hover:not(:disabled) {
         background-color: ${t.applyButtonColor} !important;
         border-color: ${t.applyButtonColor} !important;
         opacity: 0.8 !important;
       }
 
-      .datex-picker .drp-buttons .btn.btn-danger {
+      .datex-picker .drp-buttons .datex-btn.datex-btn-danger {
         background-color: ${t.cancelButtonColor} !important;
         border-color: ${t.cancelButtonColor} !important;
         color: #fff !important;
       }
 
-      .datex-picker .drp-buttons .btn.btn-danger:hover:not(:disabled) {
+      .datex-picker .drp-buttons .datex-btn.datex-btn-danger:hover:not(:disabled) {
         background-color: ${t.cancelButtonColor} !important;
         border-color: ${t.cancelButtonColor} !important;
         opacity: 0.8 !important;
@@ -1068,8 +1302,8 @@ export class ThemeService {
           display: none !important; /* Hide on mobile - buttons are in header */
         }
 
-        .datex-picker .drp-buttons .btn,
-        .datex-picker.mobile-view .drp-buttons .btn {
+        .datex-picker .drp-buttons .datex-btn,
+        .datex-picker.mobile-view .drp-buttons .datex-btn {
           min-width: 70px !important;
           padding: 8px 14px !important;
           margin: 0 4px !important;
@@ -1187,6 +1421,9 @@ export class ThemeService {
           clear: none !important;
         }
       }
+
+      /* Material Design specific styles */
+      ${isMaterialTheme ? this.getMaterialDesignStyles(t, currentMode) : ""}
     `;
   }
 }

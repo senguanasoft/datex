@@ -121,9 +121,9 @@ export class Datex {
       opens: options.opens || "center",
       drops: options.drops || "auto",
       locale: options.locale || SPANISH_LOCALE,
-      buttonClasses: options.buttonClasses || "btn btn-sm",
-      applyButtonClasses: options.applyButtonClasses || "btn-success",
-      cancelButtonClasses: options.cancelButtonClasses || "btn-danger",
+      buttonClasses: options.buttonClasses || "datex-btn datex-btn-sm",
+      applyButtonClasses: options.applyButtonClasses || "datex-btn-success",
+      cancelButtonClasses: options.cancelButtonClasses || "datex-btn-danger",
       theme: options.theme || DEFAULT_THEME,
       validation: options.validation || {},
       events: options.events || {},
@@ -232,7 +232,7 @@ export class Datex {
     );
     this.validationService = new ValidationService(this.options.validation);
     this.keyboardService = new KeyboardService(this.container, {
-      enabled: true,
+      enabled: false, // Deshabilitado por defecto para evitar conflictos
     });
 
     // Setup keyboard handlers
@@ -313,17 +313,17 @@ export class Datex {
       this.element.classList.add("datex-active");
     }
 
-    // Activate keyboard service with a delay to prevent scroll jump
-    // Don't steal focus from input element
-    setTimeout(() => {
-      if (this.state.isShowing) {
-        this.keyboardService.activate(this.state.startDate);
-        // Return focus to input if it was an input element
-        if (this.element.tagName === "INPUT") {
-          (this.element as HTMLInputElement).focus();
-        }
-      }
-    }, 200);
+    // Keyboard navigation deshabilitada por defecto para evitar conflictos
+    // Los usuarios pueden habilitarla manualmente con enableKeyboardNavigation()
+    // setTimeout(() => {
+    //   if (this.state.isShowing) {
+    //     this.keyboardService.activate(this.state.startDate);
+    //     // Return focus to input if it was an input element
+    //     if (this.element.tagName === "INPUT") {
+    //       (this.element as HTMLInputElement).focus();
+    //     }
+    //   }
+    // }, 200);
 
     this.dispatchShowEvent();
   }
@@ -1063,12 +1063,12 @@ export class Datex {
     if (this.state.endDate || isBeforeDate(clickedDate, this.state.startDate)) {
       this.state.endDate = null;
       this.setStartDate(clickedDate);
-      // Update keyboard focus to the new start date
-      this.keyboardService.setFocusedDate(clickedDate);
+      // Update keyboard focus to the new start date (solo si está habilitado)
+      // this.keyboardService.setFocusedDate(clickedDate);
     } else {
       this.setEndDate(clickedDate);
-      // Update keyboard focus to the new end date
-      this.keyboardService.setFocusedDate(clickedDate);
+      // Update keyboard focus to the new end date (solo si está habilitado)
+      // this.keyboardService.setFocusedDate(clickedDate);
 
       // Validate date range if both dates are selected
       if (this.state.startDate && this.state.endDate) {

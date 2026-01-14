@@ -54,7 +54,7 @@ export const MATERIAL_THEME: DatexTheme = {
   disabledColor: "#bdbdbd",
   applyButtonColor: "#4caf50",
   cancelButtonColor: "#f44336",
-  borderRadius: "4px",
+  borderRadius: "8px", // Material Design usa bordes más redondeados
   fontSize: "14px",
   fontFamily: 'Roboto, "Helvetica Neue", Arial, sans-serif',
 };
