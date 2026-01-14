@@ -252,6 +252,9 @@ export class Datex {
       onClear: () => {
         this.clearSelection();
       },
+      onMonthChange: (date: Date) => {
+        this.handleKeyboardMonthChange(date);
+      },
     });
   }
 
@@ -311,9 +314,14 @@ export class Datex {
     }
 
     // Activate keyboard service with a delay to prevent scroll jump
+    // Don't steal focus from input element
     setTimeout(() => {
       if (this.state.isShowing) {
         this.keyboardService.activate(this.state.startDate);
+        // Return focus to input if it was an input element
+        if (this.element.tagName === "INPUT") {
+          (this.element as HTMLInputElement).focus();
+        }
       }
     }, 200);
 
@@ -661,9 +669,6 @@ export class Datex {
   }
 
   private handleKeyboardDateSelect(date: Date): void {
-    console.log("DateX: Received date from keyboard:", date.toDateString());
-    console.log("DateX: Received date day:", date.getDate());
-
     // Validate the date first
     const validation = this.validationService.validateDate(date);
     if (!validation.isValid) {
@@ -695,6 +700,24 @@ export class Datex {
     this.updateDateClasses();
   }
 
+  private handleKeyboardMonthChange(date: Date): void {
+    // Update the calendar months to show the navigated date
+    const targetMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+
+    // Update left calendar to show the month of the navigated date
+    this.state.leftCalendar.month = targetMonth;
+
+    // Update right calendar if not single date picker
+    if (!this.options.singleDatePicker) {
+      if (this.options.linkedCalendars) {
+        this.state.rightCalendar.month = addMonths(targetMonth, 1);
+      }
+    }
+
+    // Re-render calendars
+    this.updateCalendars();
+  }
+
   private clearSelection(): void {
     const today = new Date();
     this.state.startDate = today;
@@ -708,12 +731,6 @@ export class Datex {
     if (this.options.events?.onValidationError) {
       this.options.events.onValidationError(error, errorCode);
     }
-
-    // Show error in UI (you can customize this)
-    console.warn(`DateX Validation Error: ${error} (${errorCode})`);
-
-    // Could add visual feedback here like highlighting invalid dates
-    // or showing a tooltip with the error message
   }
 
   private setupEventListeners(): void {
@@ -1046,8 +1063,12 @@ export class Datex {
     if (this.state.endDate || isBeforeDate(clickedDate, this.state.startDate)) {
       this.state.endDate = null;
       this.setStartDate(clickedDate);
+      // Update keyboard focus to the new start date
+      this.keyboardService.setFocusedDate(clickedDate);
     } else {
       this.setEndDate(clickedDate);
+      // Update keyboard focus to the new end date
+      this.keyboardService.setFocusedDate(clickedDate);
 
       // Validate date range if both dates are selected
       if (this.state.startDate && this.state.endDate) {

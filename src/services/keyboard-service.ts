@@ -21,9 +21,15 @@ export class KeyboardService {
   private onApply?: () => void;
   private onToday?: () => void;
   private onClear?: () => void;
+  private onMonthChange?: (date: Date) => void;
 
   private currentFocusedDate: Date | null = null;
   private isActive = false;
+
+  // Bound event handlers for proper cleanup
+  private handleKeyDownBound?: (event: KeyboardEvent) => void;
+  private handleFocusBound?: () => void;
+  private handleBlurBound?: () => void;
 
   constructor(container: HTMLElement, options: KeyboardOptions = {}) {
     this.container = container;
@@ -51,12 +57,14 @@ export class KeyboardService {
     onApply?: () => void;
     onToday?: () => void;
     onClear?: () => void;
+    onMonthChange?: (date: Date) => void;
   }): void {
     this.onDateSelect = handlers.onDateSelect;
     this.onClose = handlers.onClose;
     this.onApply = handlers.onApply;
     this.onToday = handlers.onToday;
     this.onClear = handlers.onClear;
+    this.onMonthChange = handlers.onMonthChange;
   }
 
   activate(initialDate?: Date): void {
@@ -74,62 +82,104 @@ export class KeyboardService {
       }
     }, 100);
 
-    // Focus the container without scrolling
-    this.container.focus({ preventScroll: true });
+    // Don't focus the container automatically - let the parent control focus
+    // This prevents stealing focus from input elements
+
+    // Add document listener when activating
+    if (this.handleKeyDownBound) {
+      document.addEventListener("keydown", this.handleKeyDownBound);
+    }
   }
 
   deactivate(): void {
     this.isActive = false;
     this.currentFocusedDate = null;
     this.removeFocusStyles();
+
+    // Remove document listener when deactivating
+    if (this.handleKeyDownBound) {
+      document.removeEventListener("keydown", this.handleKeyDownBound);
+    }
   }
 
   private setupKeyboardEvents(): void {
     // Make container focusable
     this.container.setAttribute("tabindex", "0");
 
-    this.container.addEventListener("keydown", this.handleKeyDown.bind(this));
-    this.container.addEventListener("focus", this.handleFocus.bind(this));
-    this.container.addEventListener("blur", this.handleBlur.bind(this));
+    // Listen to both container and document for keyboard events
+    // This allows keyboard navigation even when input has focus
+    this.handleKeyDownBound = this.handleKeyDown.bind(this);
+    this.handleFocusBound = this.handleFocus.bind(this);
+    this.handleBlurBound = this.handleBlur.bind(this);
+
+    this.container.addEventListener("keydown", this.handleKeyDownBound);
+    this.container.addEventListener("focus", this.handleFocusBound);
+    this.container.addEventListener("blur", this.handleBlurBound);
+
+    // Document listener will be added/removed in activate/deactivate
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
     if (!this.isActive || !this.currentFocusedDate) return;
 
     const { key, ctrlKey, shiftKey, altKey } = event;
+    const target = event.target as HTMLElement;
+
+    // Only handle keyboard navigation if:
+    // 1. The event is from the container itself, OR
+    // 2. The event is from an input/button that triggered the picker, OR
+    // 3. The event is from a select element within the picker (month/year dropdowns)
+    const isFromContainer = this.container.contains(target);
+    const isFromInput =
+      target.tagName === "INPUT" || target.tagName === "BUTTON";
+    const isFromSelect = target.tagName === "SELECT";
+
+    // Don't intercept if user is typing in a select dropdown
+    if (isFromSelect) return;
+
+    // Only handle if from container or from the input that opened the picker
+    if (!isFromContainer && !isFromInput) return;
 
     // Navigation keys
     switch (key) {
       case "ArrowLeft":
         event.preventDefault();
+        event.stopPropagation();
         this.navigateDate(-1);
         break;
       case "ArrowRight":
         event.preventDefault();
+        event.stopPropagation();
         this.navigateDate(1);
         break;
       case "ArrowUp":
         event.preventDefault();
+        event.stopPropagation();
         this.navigateDate(-7);
         break;
       case "ArrowDown":
         event.preventDefault();
+        event.stopPropagation();
         this.navigateDate(7);
         break;
       case "Home":
         event.preventDefault();
+        event.stopPropagation();
         this.navigateToStartOfWeek();
         break;
       case "End":
         event.preventDefault();
+        event.stopPropagation();
         this.navigateToEndOfWeek();
         break;
       case "PageUp":
         event.preventDefault();
+        event.stopPropagation();
         this.navigateMonth(shiftKey ? -12 : -1);
         break;
       case "PageDown":
         event.preventDefault();
+        event.stopPropagation();
         this.navigateMonth(shiftKey ? 12 : 1);
         break;
     }
@@ -139,30 +189,17 @@ export class KeyboardService {
       case "Enter":
       case " ":
         event.preventDefault();
+        event.stopPropagation();
         if (this.currentFocusedDate && this.onDateSelect) {
           // Create a copy of the date to avoid mutation issues
           const dateToSelect = new Date(this.currentFocusedDate.getTime());
-
-          // Debug: Let's verify the dates are exactly the same
-          console.log("=== KEYBOARD DEBUG ===");
-          console.log("Original focused date:", this.currentFocusedDate);
-          console.log(
-            "Original focused day:",
-            this.currentFocusedDate.getDate()
-          );
-          console.log("Copy to select:", dateToSelect);
-          console.log("Copy day:", dateToSelect.getDate());
-          console.log(
-            "Are they equal?",
-            this.currentFocusedDate.getTime() === dateToSelect.getTime()
-          );
-          console.log("======================");
 
           this.onDateSelect(dateToSelect);
         }
         break;
       case "Escape":
         event.preventDefault();
+        event.stopPropagation();
         if (this.onClose) {
           this.onClose();
         }
@@ -174,12 +211,14 @@ export class KeyboardService {
       switch (key.toLowerCase()) {
         case this.options.shortcuts?.today?.toLowerCase():
           event.preventDefault();
+          event.stopPropagation();
           if (this.onToday) {
             this.onToday();
           }
           break;
         case this.options.shortcuts?.clear?.toLowerCase():
           event.preventDefault();
+          event.stopPropagation();
           if (this.onClear) {
             this.onClear();
           }
@@ -192,6 +231,7 @@ export class KeyboardService {
       switch (key.toLowerCase()) {
         case "enter":
           event.preventDefault();
+          event.stopPropagation();
           if (this.onApply) {
             this.onApply();
           }
@@ -227,11 +267,23 @@ export class KeyboardService {
   private navigateDate(days: number): void {
     if (!this.currentFocusedDate) return;
 
+    // Store the old month/year to detect changes
+    const oldMonth = this.currentFocusedDate.getMonth();
+    const oldYear = this.currentFocusedDate.getFullYear();
+
     // Create a new date to avoid mutating the original
     const newDate = new Date(this.currentFocusedDate.getTime());
     newDate.setDate(newDate.getDate() + days);
 
     this.currentFocusedDate = newDate;
+
+    // Check if month changed
+    if (newDate.getMonth() !== oldMonth || newDate.getFullYear() !== oldYear) {
+      if (this.onMonthChange) {
+        this.onMonthChange(newDate);
+      }
+    }
+
     this.updateFocusedDate();
   }
 
@@ -243,6 +295,12 @@ export class KeyboardService {
     newDate.setMonth(newDate.getMonth() + months);
 
     this.currentFocusedDate = newDate;
+
+    // Always notify month change for month navigation
+    if (this.onMonthChange) {
+      this.onMonthChange(newDate);
+    }
+
     this.updateFocusedDate();
   }
 
@@ -278,18 +336,12 @@ export class KeyboardService {
 
     // Find the cell for the current focused date
     const dateStr = this.formatDateForSelector(this.currentFocusedDate);
-    console.log("Keyboard: Looking for cell with data-date:", dateStr);
-    console.log(
-      "Keyboard: Current focused date:",
-      this.currentFocusedDate.toDateString()
-    );
 
     const cell = this.container.querySelector(
       `[data-date="${dateStr}"]`
     ) as HTMLElement;
 
     if (cell) {
-      console.log("Keyboard: Found cell, text content:", cell.textContent);
       cell.classList.add("keyboard-focused");
       cell.setAttribute("aria-selected", "true");
 
@@ -312,8 +364,6 @@ export class KeyboardService {
           });
         }
       }
-    } else {
-      console.log("Keyboard: Cell not found for date:", dateStr);
     }
 
     // Add CSS for keyboard focus styling
@@ -365,12 +415,6 @@ export class KeyboardService {
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
     const formatted = `${year}-${month}-${day}`;
-    console.log(
-      "Keyboard: Formatting date for selector:",
-      date.toDateString(),
-      "-> formatted:",
-      formatted
-    );
     return formatted;
   }
 
@@ -389,12 +433,16 @@ export class KeyboardService {
   }
 
   cleanup(): void {
-    this.container.removeEventListener(
-      "keydown",
-      this.handleKeyDown.bind(this)
-    );
-    this.container.removeEventListener("focus", this.handleFocus.bind(this));
-    this.container.removeEventListener("blur", this.handleBlur.bind(this));
+    if (this.handleKeyDownBound) {
+      this.container.removeEventListener("keydown", this.handleKeyDownBound);
+      document.removeEventListener("keydown", this.handleKeyDownBound);
+    }
+    if (this.handleFocusBound) {
+      this.container.removeEventListener("focus", this.handleFocusBound);
+    }
+    if (this.handleBlurBound) {
+      this.container.removeEventListener("blur", this.handleBlurBound);
+    }
 
     this.removeFocusStyles();
 
